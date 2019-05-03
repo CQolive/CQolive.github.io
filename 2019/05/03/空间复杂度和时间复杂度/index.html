@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>栈帧 | CQ Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="CQ,Olive's Blog">
+  
+  <meta name="description" content="时间复杂度 一般情况下，算法的基本操作重复执行的次数是模块n的某一个函数f(n)，因此，算法的时间复杂度记做:T(n)=O(f(n)) 分析:随着模块n的增大，算法执行的时间的增长率和 f(n) 的增长率成正比，所以 f(n) 越小，算法的时间复杂度越低，算法的效率越高。 在计算时间复杂度的时候，先找出算法的基本操作，然后根据相应的各语句确定它的执行次数，再找出 T(n) 的同数量级(它的同数量级">
+<meta name="keywords" content="C语言,数据与结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="栈帧">
+<meta property="og:url" content="http://CQolive.github.io/2019/05/03/空间复杂度和时间复杂度/index.html">
+<meta property="og:site_name" content="CQ Blog">
+<meta property="og:description" content="时间复杂度 一般情况下，算法的基本操作重复执行的次数是模块n的某一个函数f(n)，因此，算法的时间复杂度记做:T(n)=O(f(n)) 分析:随着模块n的增大，算法执行的时间的增长率和 f(n) 的增长率成正比，所以 f(n) 越小，算法的时间复杂度越低，算法的效率越高。 在计算时间复杂度的时候，先找出算法的基本操作，然后根据相应的各语句确定它的执行次数，再找出 T(n) 的同数量级(它的同数量级">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-03T06:51:19.751Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="栈帧">
+<meta name="twitter:description" content="时间复杂度 一般情况下，算法的基本操作重复执行的次数是模块n的某一个函数f(n)，因此，算法的时间复杂度记做:T(n)=O(f(n)) 分析:随着模块n的增大，算法执行的时间的增长率和 f(n) 的增长率成正比，所以 f(n) 越小，算法的时间复杂度越低，算法的效率越高。 在计算时间复杂度的时候，先找出算法的基本操作，然后根据相应的各语句确定它的执行次数，再找出 T(n) 的同数量级(它的同数量级">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?true";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+  <div style="display: none;">
+    <script src="//s22.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
+  </div>
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Olive</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>主页</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>文章</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Olive
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        C/C++ ROS Linux 深度学习
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Olive" target="_blank" href="//olive.com">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="https://github.com/CQolive?tab=repositories">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-空间复杂度和时间复杂度" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      栈帧
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-05-03
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h4 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h4><ol>
+<li>一般情况下，算法的基本操作重复执行的次数是模块n的某一个函数f(n)，因此，算法的时间复杂度记做:T(n)=O(f(n))<br> 分析:随着模块n的增大，算法执行的时间的增长率和 f(n) 的增长率成正比，所以 f(n) 越小，算法的时间复杂度越低，算法的效率越高。</li>
+<li>在计算时间复杂度的时候，先找出算法的基本操作，然后根据相应的各语句确定它的执行次数，再找出 T(n) 的同数量级(它的同数量级有以下:1，log(2)n，n，n log(2)n ，n的平方，n的三次方，2的n次方，n!)，找出后，f(n) = 该数量级，若 T(n)/f(n) 求极限可得到一常数c，则时间复杂度T(n) = O(f(n))<br> 例:算法 T(n) = n^2+n^3，根据上面括号里的同数量级，我们可以确定 n的三次方 为T(n)的同数量级则有 f(n) = n的三次方，然后根据 T(n)/f(n) 求极限可得到常数c,则该算法的时间复杂度:T(n) = O(n^3) 注:n^3即是n的3次方。</li>
+<li>for循环中容易计算的方法是:看看有几重for循环，只有一重则时间复杂度为O(n)，二重则为O(n^2)，依此类推，如果有二分则为O(logn)，二分例如快速幂、二分查找，如果一个for循环套一个二分，那么时间复杂度则为O(nlogn)。<br>递归算法的时间复杂度：递归总次数*每次递归数</li>
+</ol>
+<h4 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h4><p>  类似于时间复杂度的讨论，一个算法的空间复杂度(SpaceComplexity)S(n)定义为该算法所耗费的存储空间，它也是问题规模n的函数。<br>  一个算法的空间复杂度只考虑在运行过程中为局部变量分配的存储空间的大小，它包括为参数表中形参变量分配的存储空间和为在函数体中定义的局部变量分配的存储空间两个部分。若一个算法为递归算法，其空间复杂度为递归所使用的堆栈空间的大小，它等于一次调用所分配的临时存储空间的大小乘以被调用的次数(即为递归调用的次数加1，这个1表示开始进行的一次非递归调用)。<br>递归的空间复杂度：每次递归所开空间*深度</p>
+<h4 id="时间与空间复杂度的联系"><a href="#时间与空间复杂度的联系" class="headerlink" title="时间与空间复杂度的联系"></a>时间与空间复杂度的联系</h4><p>  对于一个算法，其时间复杂度和空间复杂度往往是相互影响的。当追求一个较好的时间复杂度时，可能会使空间复杂度的性能变差，即可能导致占用较多的存储空间;反之，当追求一个较好的空间复杂度时，可能会使时间复杂度的性能变差，即可能导致占用较长的运行时间。</p>
+<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>实现斐波那契数列的递归及非递归。（分析时间复杂度及空间复杂度）<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> _CRT_SECURE_NO_WARNINGS  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;assert.h&gt;  </span></span></span><br><span class="line">[cpp] view plain copy</span><br><span class="line"><span class="comment">//递归算法  </span></span><br><span class="line"><span class="comment">//（1）要想求解F(n),必须先计算F(n-1)和F(n-2),计算F(n-1)和F(n-2)，又必须先计算F(n-3)和F(n-4).....以此类推，直至必须先计算F(1)和F(0),然后逆推得到F(n-1)和F(n-2)的结果，从而得到F(n)要计算很多重复的值，在时间上造成了很大的浪费，算法的时间复杂度随着N的增大呈现指数增长，时间的复杂度为O(2^n)，即2的n次方。  </span></span><br><span class="line">（<span class="number">2</span>）空间复杂度为O(n)  </span><br><span class="line">[cpp] view plain copy</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fib1</span><span class="params">(<span class="keyword">int</span> n)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">while</span> (n &lt; <span class="number">2</span>)  </span><br><span class="line">        <span class="keyword">return</span> n;  </span><br><span class="line">    <span class="keyword">while</span> (n &gt;= <span class="number">2</span>)  </span><br><span class="line">        <span class="keyword">return</span> fib1(n - <span class="number">1</span>) + fib1(n - <span class="number">2</span>);  </span><br><span class="line">&#125;  </span><br><span class="line">[cpp] view plain copy</span><br><span class="line"><span class="comment">//非递归  </span></span><br><span class="line"><span class="comment">//（1）从n(&gt;2)开始计算，用F(n-1)和F(n-2)两个数相加求出结果，这样就避免了大量的重复计算，它的效率比递归算法快得多，算法的时间复杂度与n成正比，即算法的时间复杂度为O(n).  </span></span><br><span class="line">（<span class="number">2</span>）空间复杂度为O(<span class="number">1</span>)  </span><br><span class="line">[cpp] view plain copy</span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="keyword">long</span> <span class="title">fib2</span><span class="params">(<span class="keyword">int</span> n)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, f1 = <span class="number">0</span>, f2 = <span class="number">1</span>, f3 = <span class="number">0</span>;  </span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">2</span>)  </span><br><span class="line">        <span class="keyword">return</span> n;  </span><br><span class="line">    <span class="keyword">if</span> (n &gt;= <span class="number">2</span>)  </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">long</span> <span class="keyword">long</span> i = <span class="number">2</span>; i &lt;= n; i++)  </span><br><span class="line">    &#123;  </span><br><span class="line">        f3 = f1 + f2;  </span><br><span class="line">        f1 = f2;  </span><br><span class="line">        f2 = f3;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> f3;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,fib1(<span class="number">6</span>));  </span><br><span class="line">    <span class="comment">//printf("%d\n", fib2(6));  </span></span><br><span class="line">    system(<span class="string">"pause"</span>);  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年05月03日 14:51</p>
+        <p>原始链接： <a class="post-url" href="/2019/05/03/空间复杂度和时间复杂度/" title="栈帧">http://CQolive.github.io/2019/05/03/空间复杂度和时间复杂度/</a></p>
+        <footer>
+            <a href="http://CQolive.github.io">
+                <img src="/images/logo.png" alt="CQ">
+                CQ
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/05/03/空间复杂度和时间复杂度/&title=《栈帧》 — CQ Blog&pic=/images/3_1.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/05/03/空间复杂度和时间复杂度/&title=《栈帧》 — CQ Blog&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/05/03/空间复杂度和时间复杂度/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《栈帧》 — CQ Blog&url=http://CQolive.github.io/2019/05/03/空间复杂度和时间复杂度/&via=http://CQolive.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/05/03/空间复杂度和时间复杂度/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/05/03/空间复杂度和时间复杂度/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/C语言/" class="color4">C语言</a>
+      
+    <a href="/tags/数据与结构/" class="color1">数据与结构</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#时间复杂度"><span class="post-toc-text">时间复杂度</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#空间复杂度"><span class="post-toc-text">空间复杂度</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#时间与空间复杂度的联系"><span class="post-toc-text">时间与空间复杂度的联系</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#例子"><span class="post-toc-text">例子</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/05/03/栈帧/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          栈帧
+        
+      </span>
+    </a>
+  
+  
+</nav>
+
+
+
+    
+        <div id="SOHUCS" sid="空间复杂度和时间复杂度"></div>
+<script type="text/javascript">
+    (function(){
+        var appid = 'true';
+        var conf = 'true';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 CQ<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://CQolive.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/First/">First</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/ROS/" style="font-size: 10px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 20px;">数据与结构</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>主页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>文章</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/ROS/" style="font-size: 10px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 20px;">数据与结构</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
