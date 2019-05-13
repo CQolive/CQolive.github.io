@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>ROS学习笔记 | Olive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="CQ,Olive's Blog">
+  
+  <meta name="description" content="一、ROS导航1.rospack = ros + pack(age)，通过cpp文件找功能包。例子： $ rospack find roscpp /opt/ros/kinetic/share/roscpp 2.roscd = ros + cd，通过节点或包名，可以直接进入到所在的功能包目录123$ roscd roscpp/cmake$ pwdYOUR_INSTALL_PATH/share/ros">
+<meta name="keywords" content="ROS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ROS学习笔记">
+<meta property="og:url" content="http://CQolive.github.io/2019/05/13/ROS学习笔记/index.html">
+<meta property="og:site_name" content="Olive">
+<meta property="og:description" content="一、ROS导航1.rospack = ros + pack(age)，通过cpp文件找功能包。例子： $ rospack find roscpp /opt/ros/kinetic/share/roscpp 2.roscd = ros + cd，通过节点或包名，可以直接进入到所在的功能包目录123$ roscd roscpp/cmake$ pwdYOUR_INSTALL_PATH/share/ros">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-13T14:11:37.351Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ROS学习笔记">
+<meta name="twitter:description" content="一、ROS导航1.rospack = ros + pack(age)，通过cpp文件找功能包。例子： $ rospack find roscpp /opt/ros/kinetic/share/roscpp 2.roscd = ros + cd，通过节点或包名，可以直接进入到所在的功能包目录123$ roscd roscpp/cmake$ pwdYOUR_INSTALL_PATH/share/ros">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?true";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+  <div style="display: none;">
+    <script src="//s22.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
+  </div>
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Olive</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>主页</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>文章</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Olive
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        C/C++ ROS Linux 深度学习
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Olive" target="_blank" href="http://CQolive.github.io">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="https://github.com/CQolive?tab=repositories">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-ROS学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      ROS学习笔记
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-05-13
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="一、ROS导航"><a href="#一、ROS导航" class="headerlink" title="一、ROS导航"></a>一、ROS导航</h3><h4 id="1-rospack-ros-pack-age-，通过cpp文件找功能包。"><a href="#1-rospack-ros-pack-age-，通过cpp文件找功能包。" class="headerlink" title="1.rospack = ros + pack(age)，通过cpp文件找功能包。"></a>1.rospack = ros + pack(age)，通过cpp文件找功能包。</h4><p>例子：</p>
+<pre><code>$ rospack find roscpp
+/opt/ros/kinetic/share/roscpp
+</code></pre><h4 id="2-roscd-ros-cd，通过节点或包名，可以直接进入到所在的功能包目录"><a href="#2-roscd-ros-cd，通过节点或包名，可以直接进入到所在的功能包目录" class="headerlink" title="2.roscd = ros + cd，通过节点或包名，可以直接进入到所在的功能包目录"></a>2.roscd = ros + cd，通过节点或包名，可以直接进入到所在的功能包目录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ roscd roscpp/cmake</span><br><span class="line">$ pwd</span><br><span class="line">YOUR_INSTALL_PATH/share/roscpp/cmake</span><br></pre></td></tr></table></figure>
+<h4 id="3-roscd-log"><a href="#3-roscd-log" class="headerlink" title="3.roscd log"></a>3.roscd log</h4><p>   运行日志，没有运行过，返回文件不存在</p>
+<h4 id="4-rosls-ros-ls，查看功能包文件。"><a href="#4-rosls-ros-ls，查看功能包文件。" class="headerlink" title="4.rosls = ros + ls，查看功能包文件。"></a>4.rosls = ros + ls，查看功能包文件。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">显示learning_communication功能包下的文件</span><br><span class="line">$ rosls learning_communication</span><br><span class="line">action  CMakeLists.txt  include  msg  package.xml  src  srv</span><br></pre></td></tr></table></figure>
+<p>###二、创建工作空间和ROS包</p>
+<h4 id="1-工作空间结构"><a href="#1-工作空间结构" class="headerlink" title="1.工作空间结构"></a>1.工作空间结构</h4><p>workspace_folder/<br>&#160;&#160;bulid/<br>&#160;&#160;devel/<br>&#160;&#160;src/<br>    &#160;&#160;&#160;&#160;&#160;CMakeLists.txt<br>   &#160;&#160;&#160;&#160; package_1/<br>       &#160;&#160;&#160;&#160;&#160; &#160;&#160; &#160;CMakeLists.txt<br>      &#160;&#160;&#160;&#160;&#160; &#160;&#160; &#160; package.xml<br>  &#160;&#160;&#160;&#160;&#160; &#160;   …<br>   &#160;&#160;&#160;&#160;  package_n/<br>      &#160;&#160;&#160;&#160;&#160; &#160;&#160; &#160;CMakeLists.txt<br>      &#160;&#160;&#160;&#160;&#160; &#160; &#160; &#160;package.xml        </p>
+<h4 id="ROS包简单结构"><a href="#ROS包简单结构" class="headerlink" title="ROS包简单结构"></a>ROS包简单结构</h4><p>my_package/<br>&#160;&#160;&#160;&#160;&#160;&#160;CMakeLists.txt<br>&#160;&#160;&#160;&#160;&#160;&#160;package.xml</p>
+<h4 id="2-创建工作环境-创建名为catkin-ws的工作空间"><a href="#2-创建工作环境-创建名为catkin-ws的工作空间" class="headerlink" title="2.创建工作环境(创建名为catkin_ws的工作空间)"></a>2.创建工作环境(创建名为catkin_ws的工作空间)</h4><pre><code>mkdir -p ~/catkin_ws/src
+cd catkin_ws/src
+catkin_init_workspace
+cd ..
+catkin_make
+</code></pre><p> 编译结束后会出现两个文件夹，build文件夹是构建空间的默认位置，并且调用cmake和make来配置和构建软件包。devel文件夹是devel空间的默认位置，这是可执行文件和库在安装软件包之前的位置。</p>
+<pre><code>$ ls  
+build
+devel
+src
+</code></pre><h4 id="3-创建功能包（依赖std-msgs-rospy-roscpp，创建好后文件里有package-xml和CMakeLists-txt）"><a href="#3-创建功能包（依赖std-msgs-rospy-roscpp，创建好后文件里有package-xml和CMakeLists-txt）" class="headerlink" title="3.创建功能包（依赖std_msgs rospy roscpp，创建好后文件里有package.xml和CMakeLists.txt）"></a>3.创建功能包（依赖std_msgs rospy roscpp，创建好后文件里有package.xml和CMakeLists.txt）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//创建文件夹</span><br><span class="line">$ mkdir ~/catkin_ws/src  </span><br><span class="line">//创建beginner_tutorials功能包，</span><br><span class="line">$ catkin_create_pkg beginner_tutorials std_msgs rospy roscpp</span><br></pre></td></tr></table></figure>
+<h4 id="4-创建工作空间和安装文件"><a href="#4-创建工作空间和安装文件" class="headerlink" title="4.创建工作空间和安装文件"></a>4.创建工作空间和安装文件</h4><p>添加自己创建的bash文件 source ~/catkin_ws/devel/setup.bash，其他终端也可以用自己新创建的工作空间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.bashrc  </span><br><span class="line">source ~/catkin_ws/devel/setup.bash   </span><br><span class="line">//添加到最后一行</span><br></pre></td></tr></table></figure>
+<p>查看自己的工作空间是否添加到ROS功能包路径里</p>
+<pre><code>echo $ROS_PACKAGE_PATH 
+</code></pre><h4 id="4-查看依赖（选看）"><a href="#4-查看依赖（选看）" class="headerlink" title="4.查看依赖（选看）"></a>4.查看依赖（选看）</h4><p>显示功能包依赖，运行前保证已经添加到ROS功能包路径</p>
+<pre><code>$ rospack depends1 beginner_tutorials  
+roscpp
+rospy
+std_msgs
+</code></pre><p>依赖信息储存在package.xml中</p>
+<pre><code>$ roscd beginner_tutorials
+$ cat package.xml
+&lt;package format=&quot;2&quot;&gt;
+...
+  &lt;buildtool_depend&gt;catkin&lt;/buildtool_depend&gt;
+  &lt;build_depend&gt;roscpp&lt;/build_depend&gt;
+  &lt;build_depend&gt;rospy&lt;/build_depend&gt;
+  &lt;build_depend&gt;std_msgs&lt;/build_depend&gt;
+...
+&lt;/package&gt;
+</code></pre><p>查看rospy的依赖（间接依赖）</p>
+<pre><code>$ rospack depends1 rospy 
+genpy
+roscpp
+rosgraph
+rosgraph_msgs
+roslib
+std_msgs
+</code></pre><p>显示所有的间接依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ rospack depends beginner_tutorials </span><br><span class="line">cpp_common</span><br><span class="line">rostime</span><br><span class="line">roscpp_traits</span><br><span class="line">roscpp_serialization</span><br><span class="line">catkin</span><br><span class="line">genmsg</span><br><span class="line">genpy</span><br><span class="line">message_runtime</span><br><span class="line">gencpp</span><br><span class="line">geneus</span><br><span class="line">gennodejs</span><br><span class="line">genlisp</span><br><span class="line">message_generation</span><br><span class="line">rosbuild</span><br><span class="line">rosconsole</span><br><span class="line">std_msgs</span><br><span class="line">rosgraph_msgs</span><br><span class="line">xmlrpcpp</span><br><span class="line">roscpp</span><br><span class="line">rosgraph</span><br><span class="line">ros_environment</span><br><span class="line">rospack</span><br><span class="line">roslib</span><br><span class="line">rospy</span><br></pre></td></tr></table></figure>
+<h4 id="6-自定义包-一行一行解释package-xml文件"><a href="#6-自定义包-一行一行解释package-xml文件" class="headerlink" title="6.自定义包(一行一行解释package.xml文件)"></a>6.自定义包(一行一行解释package.xml文件)</h4><p>第一个数字是行号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">5  &lt;description&gt;The beginner_tutorials package&lt;/description&gt;  </span><br><span class="line">//描述标签，说明功能包的名字版本</span><br><span class="line"></span><br><span class="line">7   &lt;!-- One maintainer tag required, multiple allowed, one person per tag --&gt;   //维护者标签，至少要有一个维护着的联系方式要有</span><br><span class="line">8   &lt;!-- Example:  --&gt;</span><br><span class="line">9   &lt;!-- &lt;maintainer email=&quot;jane.doe@example.com&quot;&gt;Jane Doe&lt;/maintainer&gt; --&gt;</span><br><span class="line">10   &lt;maintainer email=&quot;user@todo.todo&quot;&gt;user&lt;/maintainer&gt;</span><br><span class="line"></span><br><span class="line">12   &lt;!-- One license tag required, multiple allowed, one license per tag --&gt;  //许可证标签，您应该选择许可证并在此处填写。</span><br><span class="line">13   &lt;!-- Commonly used license strings: --&gt;                </span><br><span class="line">14   &lt;!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 --&gt;一些常见的开源许可证是BSD，MIT，Boost软件许可证，GPLv2，GPLv3，LGPLv2.1和LGPLv3。您可以在开源倡议中了解其中的几个。对于本教程，我们将使用BSD许可证，因为其余的核心ROS组件已经使用它：</span><br><span class="line">15   &lt;license&gt;TODO&lt;/license&gt;         </span><br><span class="line">// 对于本教程，我们将使用BSD许可证，因为其余的核心ROS组件已经使用它</span><br><span class="line"></span><br><span class="line">27   &lt;!-- The *_depend tags are used to specify dependencies --&gt;    </span><br><span class="line">// 依赖标签，下一组标记描述了包的依赖关系。</span><br><span class="line">                                                                  </span><br><span class="line">依赖项分为</span><br><span class="line">build_depend，buildtool_depend，exec_depend，test_depend。</span><br><span class="line">                                                                  有关这些标记的更详细说明，请参阅有关Catkin依赖关系的文档。</span><br><span class="line">                                                                  由于我们将std_msgs，roscpp和rospy作为catkin_create_pkg的参数传递，因此依赖关系将如下所示：</span><br><span class="line">28   &lt;!-- Dependencies can be catkin packages or system dependencies --&gt;</span><br><span class="line">29   &lt;!-- Examples: --&gt;</span><br><span class="line">30   &lt;!-- Use build_depend for packages you need at compile time: --&gt;</span><br><span class="line">31   &lt;!--   &lt;build_depend&gt;genmsg&lt;/build_depend&gt; --&gt;</span><br><span class="line">32   &lt;!-- Use buildtool_depend for build tool packages: --&gt;</span><br><span class="line">33   &lt;!--   &lt;buildtool_depend&gt;catkin&lt;/buildtool_depend&gt; --&gt;</span><br><span class="line">34   &lt;!-- Use exec_depend for packages you need at runtime: --&gt;</span><br><span class="line">35   &lt;!--   &lt;exec_depend&gt;python-yaml&lt;/exec_depend&gt; --&gt;</span><br><span class="line">36   &lt;!-- Use test_depend for packages you need only for testing: --&gt;</span><br><span class="line">37   &lt;!--   &lt;test_depend&gt;gtest&lt;/test_depend&gt; --&gt;</span><br><span class="line">38   &lt;buildtool_depend&gt;catkin&lt;/buildtool_depend&gt;</span><br><span class="line">39   &lt;build_depend&gt;roscpp&lt;/build_depend&gt;</span><br><span class="line">40   &lt;build_depend&gt;rospy&lt;/build_depend&gt;</span><br><span class="line">41   &lt;build_depend&gt;std_msgs&lt;/build_depend&gt;</span><br></pre></td></tr></table></figure>
+<p> 最终的packageXML文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">1 &lt;?xml version=&quot;1.0&quot;?&gt;               </span><br><span class="line">  2 &lt;package format=&quot;2&quot;&gt;</span><br><span class="line">  3   &lt;name&gt;beginner_tutorials&lt;/name&gt;</span><br><span class="line">  4   &lt;version&gt;0.1.0&lt;/version&gt;</span><br><span class="line">  5   &lt;description&gt;The beginner_tutorials package&lt;/description&gt;</span><br><span class="line">  6 </span><br><span class="line">  7   &lt;maintainer email=&quot;you@yourdomain.tld&quot;&gt;Your Name&lt;/maintainer&gt;</span><br><span class="line">  8   &lt;license&gt;BSD&lt;/license&gt;</span><br><span class="line">  9   &lt;url type=&quot;website&quot;&gt;http://wiki.ros.org/beginner_tutorials&lt;/url&gt;</span><br><span class="line"> 10   &lt;author email=&quot;you@yourdomain.tld&quot;&gt;Jane Doe&lt;/author&gt;</span><br><span class="line"> 11 </span><br><span class="line"> 12   &lt;buildtool_depend&gt;catkin&lt;/buildtool_depend&gt;</span><br><span class="line"> 13 </span><br><span class="line"> 14   &lt;build_depend&gt;roscpp&lt;/build_depend&gt;</span><br><span class="line"> 15   &lt;build_depend&gt;rospy&lt;/build_depend&gt;</span><br><span class="line"> 16   &lt;build_depend&gt;std_msgs&lt;/build_depend&gt;</span><br><span class="line"> 17 </span><br><span class="line"> 18   &lt;exec_depend&gt;roscpp&lt;/exec_depend&gt;</span><br><span class="line"> 19   &lt;exec_depend&gt;rospy&lt;/exec_depend&gt;</span><br><span class="line"> 20   &lt;exec_depend&gt;std_msgs&lt;/exec_depend&gt;</span><br><span class="line"> 21 </span><br><span class="line"> 22 &lt;/package&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="四-catkin-make解读"><a href="#四-catkin-make解读" class="headerlink" title="四.catkin_make解读"></a>四.catkin_make解读</h3><p>CmakeLists.txt,大家应该比较熟悉了，就是我们借助Cmake自动帮我们按照规则生成的makefile文件，来完成工程的编译、链接工作。<br>catkin_make是将cmake与make的编译方式做了一个封装的指令工具, 规范了工作路径与生成文件路径，而且在新建个工作空间时就帮我们创建了一个顶层的CMakeLists.txt文件，它会递归的寻找到当前工作空间下的所有软件包内的CMakeLists.txt依次来编译每一个软件包。(src的每个包里都有CmakeLists.txt的)</p>
+<h4 id="1-cmake介绍"><a href="#1-cmake介绍" class="headerlink" title="1.cmake介绍"></a>1.cmake介绍</h4><p>CMake通常如何工作的例子，每个CMake项目运行此过程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># In a CMake project</span><br><span class="line">$ mkdir build</span><br><span class="line">$ cd build</span><br><span class="line">$ cmake ..</span><br><span class="line">$ make</span><br><span class="line">$ make install  # (optionally)</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-catkin-make"><a href="#2-catkin-make" class="headerlink" title="2.catkin_make"></a>2.catkin_make</h4><p>下面的命令将构建在src文件夹中找到的任何catkin项目。</p>
+<pre><code># In a catkin workspace
+$ catkin_make
+$ catkin_make install  # (optionally)
+</code></pre><p>如果源代码位于不同的位置，比如my_src，那么可以像这样调用catkin_make：</p>
+<pre><code># In a catkin workspace
+$ catkin_make --source my_src
+$ catkin_make install --source my_src  # (optionally)
+</code></pre><p>catkin_make的实际工作过程：</p>
+<pre><code>$ cd ~/catkin_ws
+$ catkin_make
+</code></pre><p>以下是catkin_make具体的工作</p>
+<pre><code>$ cd ~/catkin_ws   
+$ cd src
+$ catkin_init_workspace
+$ cd ..
+$ mkdir build
+$ cd build
+$ cmake ../src 
+$ make
+</code></pre><p>catkin_make编译特定的包</p>
+<pre><code>$ catkin_make -DCATKIN_WHITELIST_PACKAGES=&quot;package1;package2&quot; //编译特定的包
+$ catkin_make -DCATKIN_WHITELIST_PACKAGES=&quot;&quot;  //编译所有的包
+</code></pre>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年05月13日 22:11</p>
+        <p>原始链接： <a class="post-url" href="/2019/05/13/ROS学习笔记/" title="ROS学习笔记">http://CQolive.github.io/2019/05/13/ROS学习笔记/</a></p>
+        <footer>
+            <a href="http://CQolive.github.io">
+                <img src="/images/logo.png" alt>
+                
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/05/13/ROS学习笔记/&title=《ROS学习笔记》 — Olive&pic=/images/ROS学习笔记/1_1.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/05/13/ROS学习笔记/&title=《ROS学习笔记》 — Olive&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/05/13/ROS学习笔记/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ROS学习笔记》 — Olive&url=http://CQolive.github.io/2019/05/13/ROS学习笔记/&via=http://CQolive.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/05/13/ROS学习笔记/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/05/13/ROS学习笔记/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/ROS/" class="color4">ROS</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、ROS导航"><span class="post-toc-text">一、ROS导航</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-rospack-ros-pack-age-，通过cpp文件找功能包。"><span class="post-toc-text">1.rospack = ros + pack(age)，通过cpp文件找功能包。</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-roscd-ros-cd，通过节点或包名，可以直接进入到所在的功能包目录"><span class="post-toc-text">2.roscd = ros + cd，通过节点或包名，可以直接进入到所在的功能包目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-roscd-log"><span class="post-toc-text">3.roscd log</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-rosls-ros-ls，查看功能包文件。"><span class="post-toc-text">4.rosls = ros + ls，查看功能包文件。</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-工作空间结构"><span class="post-toc-text">1.工作空间结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ROS包简单结构"><span class="post-toc-text">ROS包简单结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-创建工作环境-创建名为catkin-ws的工作空间"><span class="post-toc-text">2.创建工作环境(创建名为catkin_ws的工作空间)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-创建功能包（依赖std-msgs-rospy-roscpp，创建好后文件里有package-xml和CMakeLists-txt）"><span class="post-toc-text">3.创建功能包（依赖std_msgs rospy roscpp，创建好后文件里有package.xml和CMakeLists.txt）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-创建工作空间和安装文件"><span class="post-toc-text">4.创建工作空间和安装文件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-查看依赖（选看）"><span class="post-toc-text">4.查看依赖（选看）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#6-自定义包-一行一行解释package-xml文件"><span class="post-toc-text">6.自定义包(一行一行解释package.xml文件)</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#四-catkin-make解读"><span class="post-toc-text">四.catkin_make解读</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-cmake介绍"><span class="post-toc-text">1.cmake介绍</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-catkin-make"><span class="post-toc-text">2.catkin_make</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/06/Linux基本操作/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Linux基本操作</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                owner: 'true',
+                repo: '',
+                oauth: {
+                    client_id: '',
+                    client_secret: '',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Olive<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://CQolive.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/First/">First</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/ROS/" style="font-size: 15px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 20px;">数据与结构</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>主页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>文章</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/ROS/" style="font-size: 15px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 20px;">数据与结构</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
