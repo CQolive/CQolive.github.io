@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>带头结点单链表 | Olive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="CQ,Olive's Blog">
+  
+  <meta name="description" content="一. 什么是链表，链表的分类？链表是一种物理存储结构上非连续、非顺序的存储结构，数据元素的逻辑顺序是通过链表中的指针连接次序实现的。分类：1.单链表不带头节点带头结点循环单链表2.双向链表不带头节点带头结点的循环双链表最后总结如下： 二. 链表带头结点和不带头结点的区别？初始化不同：不带头结点的单链表对于第一个节点的操作与其他节点不一样，需要特殊处理，这增加了程序的复杂性和出现bug的机会，因此，">
+<meta name="keywords" content="C语言,数据与结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="带头结点单链表">
+<meta property="og:url" content="http://CQolive.github.io/2019/05/16/不带头结点单链表/index.html">
+<meta property="og:site_name" content="Olive">
+<meta property="og:description" content="一. 什么是链表，链表的分类？链表是一种物理存储结构上非连续、非顺序的存储结构，数据元素的逻辑顺序是通过链表中的指针连接次序实现的。分类：1.单链表不带头节点带头结点循环单链表2.双向链表不带头节点带头结点的循环双链表最后总结如下： 二. 链表带头结点和不带头结点的区别？初始化不同：不带头结点的单链表对于第一个节点的操作与其他节点不一样，需要特殊处理，这增加了程序的复杂性和出现bug的机会，因此，">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190427170917289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190427171457284.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190427171614216.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190427172208555.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190427172600535.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190427172848816.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190426223045852.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-05-16T14:11:29.626Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="带头结点单链表">
+<meta name="twitter:description" content="一. 什么是链表，链表的分类？链表是一种物理存储结构上非连续、非顺序的存储结构，数据元素的逻辑顺序是通过链表中的指针连接次序实现的。分类：1.单链表不带头节点带头结点循环单链表2.双向链表不带头节点带头结点的循环双链表最后总结如下： 二. 链表带头结点和不带头结点的区别？初始化不同：不带头结点的单链表对于第一个节点的操作与其他节点不一样，需要特殊处理，这增加了程序的复杂性和出现bug的机会，因此，">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190427170917289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?true";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+  <div style="display: none;">
+    <script src="//s22.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
+  </div>
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Olive</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>主页</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>文章</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Olive
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        C/C++ ROS Linux 深度学习
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Olive" target="_blank" href="http://CQolive.github.io">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="https://github.com/CQolive?tab=repositories">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-不带头结点单链表" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      带头结点单链表
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-05-16
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h4 id="一-什么是链表，链表的分类？"><a href="#一-什么是链表，链表的分类？" class="headerlink" title="一. 什么是链表，链表的分类？"></a>一. 什么是链表，链表的分类？</h4><p>链表是一种物理存储结构上非连续、非顺序的存储结构，数据元素的逻辑顺序是通过链表中的指针连接次序实现的。<br>分类：<br><strong>1.单链表</strong><br>不带头节点<br><img src="https://img-blog.csdnimg.cn/20190427170917289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>带头结点<br><img src="https://img-blog.csdnimg.cn/20190427171457284.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>循环单链表<br><img src="https://img-blog.csdnimg.cn/20190427171614216.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>2.双向链表</strong><br>不带头节点<br><img src="https://img-blog.csdnimg.cn/20190427172208555.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>带头结点的<br><img src="https://img-blog.csdnimg.cn/20190427172600535.png" alt="在这里插入图片描述"><br>循环双链表<br><img src="https://img-blog.csdnimg.cn/20190427172848816.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>最后总结如下：<br><img src="https://img-blog.csdnimg.cn/20190426223045852.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="二-链表带头结点和不带头结点的区别？"><a href="#二-链表带头结点和不带头结点的区别？" class="headerlink" title="二. 链表带头结点和不带头结点的区别？"></a>二. 链表带头结点和不带头结点的区别？</h4><p><strong>初始化</strong>不同：<strong>不带头结点</strong>的单链表对于第一个节点的操作与其他节点不一样，需要特殊处理，这增加了程序的复杂性和出现bug的机会，因此，通常在单链表的开始结点之前附设一个头结点。 <strong>带头结点</strong>的单链表，初始时一定返回的是指向头结点的地址，所以一定要用二维指针，否则将导致内存访问失败或异常。<br>引入头结点虽然会使链表变得复杂，但会有以下优势：<br>1.可以更快删除/插入第一个结点<br>2.能够统一空表和非空表的处理<br><strong>注：链表是否有头结点，头指针始终指向链表的第一个结点。如果有头结点，头指针就指向头结点。</strong></p>
+<h4 id="三、-单链表的基本操作（不带头结点单向链表）"><a href="#三、-单链表的基本操作（不带头结点单向链表）" class="headerlink" title="三、 单链表的基本操作（不带头结点单向链表）"></a>三、 单链表的基本操作（不带头结点单向链表）</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> SDataType;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">SListNode</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	SDataType _data;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">SListNode</span>* _<span class="title">pNext</span>;</span></span><br><span class="line">&#125;Node,*PNode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">SList</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	PNode _pHead;</span><br><span class="line">&#125;SList,*PSList;</span><br><span class="line"></span><br><span class="line"><span class="comment">//链表初始化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SListInit</span><span class="params">(SList *s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(s);</span><br><span class="line">	s-&gt;_pHead = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//创建一个节点</span></span><br><span class="line"><span class="function">Node *<span class="title">BuyNode</span><span class="params">(SDataType data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Node* pNewNode = (Node *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Node));</span><br><span class="line">	pNewNode-&gt;_data = data;</span><br><span class="line">	pNewNode-&gt;_pNext = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">return</span> pNewNode;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//销毁节点</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SListDstoryNode</span><span class="params">(Node *node)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(node);</span><br><span class="line">	<span class="built_in">free</span>(node);</span><br><span class="line">	node = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 在链表s最后一个节点后插入值为data的节点 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SListPushBack</span><span class="params">(SList* s, SDataType data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(s);</span><br><span class="line">	Node *pNewNode = BuyNode(data);</span><br><span class="line">	Node *p = s-&gt;_pHead;</span><br><span class="line">	<span class="keyword">if</span> (s-&gt;_pHead == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		s-&gt;_pHead = pNewNode;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">while</span> (p-&gt;_pNext)</span><br><span class="line">		&#123;</span><br><span class="line">			p = p-&gt;_pNext;</span><br><span class="line">		&#125;</span><br><span class="line">		p-&gt;_pNext = pNewNode;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除链表s最后一个节点 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SListPopBack</span><span class="params">(SList* s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(s);</span><br><span class="line">	Node *pCurNode = s-&gt;_pHead;</span><br><span class="line">	Node *pPreNode = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">if</span> (s-&gt;_pHead == <span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">if</span> (pCurNode-&gt;_pNext == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		pCurNode = <span class="literal">NULL</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span> (pCurNode-&gt;_pNext)</span><br><span class="line">	&#123;</span><br><span class="line">		pPreNode = pCurNode;</span><br><span class="line">		pCurNode = pCurNode-&gt;_pNext;</span><br><span class="line">	&#125;</span><br><span class="line">	pPreNode-&gt;_pNext = <span class="literal">NULL</span>;</span><br><span class="line">	SListDstoryNode(pCurNode);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//打印链表</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SListPrint</span><span class="params">(SList *s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(s);</span><br><span class="line">	Node *p = s-&gt;_pHead;</span><br><span class="line">	<span class="keyword">if</span> (s-&gt;_pHead == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"NULL"</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span> (p)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%d-&gt;"</span>, p-&gt;_data);</span><br><span class="line">		p = p-&gt;_pNext;</span><br><span class="line">	&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"NULL\n"</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//// 在链表s第一个节点前插入值为data的节点 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SListPushBackFront</span><span class="params">(SList* s, SDataType data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(s);</span><br><span class="line">	Node* pNewNode = BuyNode(data);</span><br><span class="line">	pNewNode-&gt;_pNext = s-&gt;_pHead;</span><br><span class="line">	s-&gt;_pHead = pNewNode;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//// 删除链表s的第一个节点 </span></span><br><span class="line"><span class="comment">//void SListPopFront(SList* s);</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SListPopFront</span><span class="params">(SList* s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(s);</span><br><span class="line">	Node* pPreNode = s-&gt;_pHead;</span><br><span class="line">	<span class="keyword">if</span> (s-&gt;_pHead == <span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	s-&gt;_pHead = s-&gt;_pHead-&gt;_pNext;</span><br><span class="line">	SListDstoryNode(pPreNode);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//// 在链表的pos位置后插入值为data的节点 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SListInsert</span><span class="params">(SList* s,PNode pos, SDataType data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(s);</span><br><span class="line">	assert(pos);</span><br><span class="line">	Node* pCurNode = s-&gt;_pHead;</span><br><span class="line">	Node* pNewNode = BuyNode(data);</span><br><span class="line">	<span class="keyword">if</span> (pCurNode == <span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span>;<span class="comment">//为空直接返回</span></span><br><span class="line">	<span class="keyword">if</span> (pos == pCurNode)</span><br><span class="line">		SListPushBackFront(s, data);</span><br><span class="line">	<span class="keyword">while</span> (pCurNode != pos)</span><br><span class="line">	&#123;</span><br><span class="line">		pCurNode = pCurNode-&gt;_pNext;</span><br><span class="line">	&#125;</span><br><span class="line">	pNewNode-&gt;_pNext = pCurNode-&gt;_pNext;</span><br><span class="line">	pCurNode-&gt;_pNext = pNewNode;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//// 删除链表s中pos位置的节点 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SListErase</span><span class="params">(SList* s, PNode pos)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(s);</span><br><span class="line">	assert(pos);</span><br><span class="line">	Node* pCurNode = s-&gt;_pHead;</span><br><span class="line">	Node* pPreNode = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">if</span> (pCurNode == <span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">if</span> (pos == pCurNode)</span><br><span class="line">	    SListPopFront(s);</span><br><span class="line">	<span class="keyword">while</span> (pos != pCurNode)</span><br><span class="line">	&#123;</span><br><span class="line">		pPreNode = pCurNode;</span><br><span class="line">		pCurNode = pCurNode-&gt;_pNext;</span><br><span class="line">	&#125;</span><br><span class="line">	pPreNode-&gt;_pNext = pCurNode-&gt;_pNext;</span><br><span class="line">	SListDstoryNode(pCurNode);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//// 在链表中查找值为data的节点，找到返回该节点的地址，否则返回NULL </span></span><br><span class="line"><span class="comment">//PNode SListFind(SList* s, SDataType data);</span></span><br><span class="line"><span class="function">Node* <span class="title">SListFind</span><span class="params">(SList* s, SDataType data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(s);</span><br><span class="line">	Node* pCurNode = s-&gt;_pHead;</span><br><span class="line">	<span class="keyword">if</span> (pCurNode == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">while</span> (pCurNode-&gt;_pNext)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (pCurNode-&gt;_data == data)</span><br><span class="line">			<span class="keyword">return</span> pCurNode;</span><br><span class="line">		pCurNode = pCurNode-&gt;_pNext;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//// 获取链表中有效节点的个数 </span></span><br><span class="line"><span class="keyword">size_t</span> SListSize(SList* s)</span><br><span class="line">&#123;</span><br><span class="line">	assert(s);</span><br><span class="line">	<span class="keyword">int</span> num = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (s-&gt;_pHead-&gt;_pNext)</span><br><span class="line">	&#123;</span><br><span class="line">		s-&gt;_pHead = s-&gt;_pHead-&gt;_pNext;</span><br><span class="line">		num++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//// 检测链表是否为空 </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">SListEmpty</span><span class="params">(SList* s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(s);</span><br><span class="line">	<span class="keyword">return</span> s-&gt;_pHead == <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//// 将链表中有效节点清空 </span></span><br><span class="line"><span class="comment">//void SListClear(SList* s);</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//// 销毁链表 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SListDestroy</span><span class="params">(SList* s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	assert(s);</span><br><span class="line">	Node* pCurNode = s-&gt;_pHead;</span><br><span class="line">	Node* pPreNode = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">if</span> (pCurNode == <span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">while</span> (pCurNode)</span><br><span class="line">	&#123;</span><br><span class="line">		pPreNode = pCurNode;</span><br><span class="line">		pCurNode = pCurNode-&gt;_pNext;</span><br><span class="line">		SListDstoryNode(pPreNode);</span><br><span class="line">	&#125;</span><br><span class="line">	pCurNode = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年05月16日 22:11</p>
+        <p>原始链接： <a class="post-url" href="/2019/05/16/不带头结点单链表/" title="带头结点单链表">http://CQolive.github.io/2019/05/16/不带头结点单链表/</a></p>
+        <footer>
+            <a href="http://CQolive.github.io">
+                <img src="/images/logo.png" alt>
+                
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/05/16/不带头结点单链表/&title=《带头结点单链表》 — Olive&pic=/images/3_1.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/05/16/不带头结点单链表/&title=《带头结点单链表》 — Olive&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/05/16/不带头结点单链表/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《带头结点单链表》 — Olive&url=http://CQolive.github.io/2019/05/16/不带头结点单链表/&via=http://CQolive.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/05/16/不带头结点单链表/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/05/16/不带头结点单链表/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/C语言/" class="color4">C语言</a>
+      
+    <a href="/tags/数据与结构/" class="color1">数据与结构</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#一-什么是链表，链表的分类？"><span class="post-toc-text">一. 什么是链表，链表的分类？</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#二-链表带头结点和不带头结点的区别？"><span class="post-toc-text">二. 链表带头结点和不带头结点的区别？</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#三、-单链表的基本操作（不带头结点单向链表）"><span class="post-toc-text">三、 单链表的基本操作（不带头结点单向链表）</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/15/动态顺序表/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">动态顺序表</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                owner: 'true',
+                repo: '',
+                oauth: {
+                    client_id: '',
+                    client_secret: '',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Olive<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://CQolive.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/First/">First</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/ROS/" style="font-size: 15px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 20px;">数据与结构</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>主页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>文章</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/ROS/" style="font-size: 15px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 20px;">数据与结构</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
