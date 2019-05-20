@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Python快速入门 | Olive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="CQ,Olive's Blog">
+  
+  <meta name="description" content="Python背景介绍  由著名的”龟叔”Guido van Rossum”于1989年年圣诞节为打发⽆无聊时间，而开发的一个新的脚本解释语⾔言. 第⼀ 个公开发⾏行行版发⾏于1991年年. 至于为什么选中Python作为语⾔言名字，是因为他是⼀个叫Monty Python的喜剧团体的爱好者。Python的特点   优雅、明确、简单。  Python支持多种编程风格  Python支持面向过程的编程">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python快速入门">
+<meta property="og:url" content="http://CQolive.github.io/2019/05/20/Python快速入门/index.html">
+<meta property="og:site_name" content="Olive">
+<meta property="og:description" content="Python背景介绍  由著名的”龟叔”Guido van Rossum”于1989年年圣诞节为打发⽆无聊时间，而开发的一个新的脚本解释语⾔言. 第⼀ 个公开发⾏行行版发⾏于1991年年. 至于为什么选中Python作为语⾔言名字，是因为他是⼀个叫Monty Python的喜剧团体的爱好者。Python的特点   优雅、明确、简单。  Python支持多种编程风格  Python支持面向过程的编程">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-20T14:35:53.223Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python快速入门">
+<meta name="twitter:description" content="Python背景介绍  由著名的”龟叔”Guido van Rossum”于1989年年圣诞节为打发⽆无聊时间，而开发的一个新的脚本解释语⾔言. 第⼀ 个公开发⾏行行版发⾏于1991年年. 至于为什么选中Python作为语⾔言名字，是因为他是⼀个叫Monty Python的喜剧团体的爱好者。Python的特点   优雅、明确、简单。  Python支持多种编程风格  Python支持面向过程的编程">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?true";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+  <div style="display: none;">
+    <script src="//s22.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
+  </div>
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Olive</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>主页</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>文章</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Olive
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        C/C++ ROS Linux 深度学习
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Olive" target="_blank" href="http://CQolive.github.io">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="https://github.com/CQolive?tab=repositories">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Python快速入门" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Python快速入门
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-05-20
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="Python背景介绍"><a href="#Python背景介绍" class="headerlink" title="Python背景介绍"></a>Python背景介绍</h3><p>  由著名的”龟叔”Guido van Rossum”于1989年年圣诞节为打发⽆无聊时间，而开发的一个新的脚本解释语⾔言. 第⼀ 个公开发⾏行行版发⾏于1991年年. 至于为什么选中Python作为语⾔言名字，是因为他是⼀个叫Monty Python的喜剧团体的爱好者。<br><strong>Python的特点</strong><br>   优雅、明确、简单。<br>  Python支持多种编程风格<br>  Python支持面向过程的编程⻛风格. 如果你熟悉C语⾔言, 那么完全可以像写C⼀一样写Python。       Python⽀支持⾯面向对象的编程风格. 数字, 字符串, 函数, 模块… 都是 “对象”。<br><strong>Python 能做哪些事</strong><br><strong>对于开发⼈人员</strong>:<br>模块组合拼接, 快速搭建线上业务逻辑 实现线下数据⽣生成流程 爬虫开发 web开发 机器学习 大数据处理<br><strong>对于测试⼈人员:</strong><br>搭建自动化测试框架 搭建持续集成环境 搭建bug状态跟踪平台<br><strong>对于运维⼈人员:</strong><br>自动化机器器管理理 自动化上线部署 数据同步分发工具<br><strong>对于产品经理:</strong><br>数据统计/分析 ofﬁce辅助工具 。<br><strong>对于其他人:</strong><br>实现各种解决我们生活中的具体问题的小工具。<br><strong>Python当然也有不能干的事情</strong> 比如写操作系统，这个只能⽤用C语言写；写手机应用，只能⽤用 Swift/Objective-C（针对iPhone）和Java（针对Android）；写3D游戏，用C或C++。</p>
+<h3 id="Python快速入门"><a href="#Python快速入门" class="headerlink" title="Python快速入门"></a>Python快速入门</h3><p>在Linux系统终端下输入Python，进入Python的shell，可以进行语言练习。此模式下本人建议做验证性实验。比较方便。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Python</span><br></pre></td></tr></table></figure></p>
+<p>屏幕打印 hello Python<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> <span class="string">"hello Python"</span></span><br></pre></td></tr></table></figure></p>
+<p>Python是一种动态强类型语言，Python中的变量不需要声明, 直接定义即可. 会在初始化的时候决 定变量的 “类型” 使用 = 来进行初始化和赋值操作.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">counter = <span class="number">0</span>       <span class="comment">#变量赋值</span></span><br><span class="line">miles = <span class="number">1000.0</span> </span><br><span class="line">name = <span class="string">'Bob'</span> </span><br><span class="line">kilometers = <span class="number">1.609</span> * miles</span><br></pre></td></tr></table></figure></p>
+<p>Python中不支持 ++/– 这样的操作, 只能写成<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n += <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>查看变量类型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">100</span></span><br><span class="line"><span class="keyword">print</span> type（a）</span><br></pre></td></tr></table></figure>
+<p>Python中可以使用 单引号(‘), 双引号(“), 三引号(‘’’/“”) 来表示字符串.这样的好处是如果字符串中包含了多种引号, 就不用蹩脚的进行转义</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="string">'hehe'</span> </span><br><span class="line">b = <span class="string">"hehe"</span> </span><br><span class="line">c = <span class="string">'''hehe'''</span></span><br><span class="line">a = <span class="string">'My name is "tangzhong"'</span></span><br><span class="line"><span class="keyword">print</span> a My name <span class="keyword">is</span> <span class="string">"tangzhong"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>用于字符串串连接运算, * 用于字符串串重复.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a = &apos;hehe&apos; </span><br><span class="line">b = &apos;haha&apos;</span><br><span class="line">c = a + b</span><br><span class="line">print c </span><br><span class="line">&gt;&gt;&gt;hehehaha #输出</span><br><span class="line">d = a * 4 </span><br><span class="line">print d </span><br><span class="line">&gt;&gt;&gt;hehehehehehehehe #输出</span><br></pre></td></tr></table></figure>
+<p>Python没有 “字符类型” 这样的概念. 单个字符也是字符串.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="string">'hehe'</span> </span><br><span class="line">type(a[<span class="number">0</span>]) </span><br><span class="line">&gt;&gt;&gt;&lt;type <span class="string">'str'</span>&gt;  <span class="comment">#输出</span></span><br></pre></td></tr></table></figure></p>
+<p>格式化字符串, 可以使用 % 这样的方式进行格式化的替换<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">100</span></span><br><span class="line">pystr = <span class="string">"a = %d"</span></span><br><span class="line">result = pystr % a </span><br><span class="line"><span class="keyword">print</span> result</span><br><span class="line">&gt;&gt;&gt;a = <span class="number">100</span>  <span class="comment">#输出</span></span><br></pre></td></tr></table></figure></p>
+<p>列表/元组/字典<br>列表和元组类似于C语言中的数组. 使用 [] 来表示列表, 使用 () 来表示元组. 列表和元组唯一的区别是, 列表中的元素可以修改, 但是元组中的元素不能修改<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">alist = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]  <span class="comment">#列表</span></span><br><span class="line">alist </span><br><span class="line">&gt;&gt;&gt;[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"></span><br><span class="line">alist[<span class="number">1</span>]  <span class="comment">#访问元素</span></span><br><span class="line">&gt;&gt;&gt;<span class="number">2</span></span><br><span class="line">alist[<span class="number">-1</span>] <span class="comment">#-1代表最后一个元素</span></span><br><span class="line">&gt;&gt;&gt;<span class="number">4</span></span><br><span class="line">alist[<span class="number">1</span>] = <span class="number">1</span> <span class="comment">#列表可以直接替换元素</span></span><br><span class="line">alist</span><br><span class="line">&gt;&gt;&gt;[<span class="number">1</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"></span><br><span class="line">atuple = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)   <span class="comment">#元祖</span></span><br><span class="line">atuple </span><br><span class="line">&gt;&gt;&gt;(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">atuple(<span class="number">1</span>) <span class="comment">#访问元素</span></span><br><span class="line">&gt;&gt;&gt;<span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<p>字典是Python中的映射数据类型. 存储键值对(key-value). ⼏几乎所有类型的Python对象都可以⽤用作键. 不不过⼀一般还是数字和字符串串常⽤用. 使⽤用 {} 表示字典.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a = &#123; <span class="string">'ip'</span> : <span class="string">'127.0.0.1'</span>&#125; <span class="comment">#创建字典</span></span><br><span class="line">a[<span class="string">'ip'</span>]        <span class="comment"># 取字典中的元素 </span></span><br><span class="line">&gt;&gt;&gt;<span class="string">'127.0.0.1'</span> </span><br><span class="line">a[<span class="string">'port'</span>] = <span class="number">80</span>              <span class="comment"># 插⼊入新键值对 </span></span><br><span class="line">a </span><br><span class="line">&gt;&gt;&gt;&#123;<span class="string">'ip'</span>: <span class="string">'127.0.0.1'</span>, <span class="string">'port'</span>: <span class="number">80</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Python中缩进进来区分代码块，四个空格为一组。<br>例如 if 语句<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> expression:    </span><br><span class="line">    do_something1    </span><br><span class="line">    do_something2 </span><br><span class="line">next_something</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> expression:    </span><br><span class="line">    do_something1 </span><br><span class="line"><span class="keyword">else</span>:    </span><br><span class="line">    do_something2</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> expression1:    </span><br><span class="line">    do_something1 </span><br><span class="line"><span class="keyword">elif</span> expression2:   </span><br><span class="line">    do_something2 </span><br><span class="line"><span class="keyword">else</span>:    </span><br><span class="line">    do_something3</span><br></pre></td></tr></table></figure></p>
+<p>while循环<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> expression:   </span><br><span class="line">    do_something</span><br><span class="line"><span class="comment"># 循环执行5次</span></span><br><span class="line"><span class="keyword">print</span> counter = <span class="number">0</span> </span><br><span class="line"><span class="keyword">while</span> counter &lt; <span class="number">5</span>:    </span><br><span class="line">    <span class="keyword">print</span> <span class="string">'循环 %d'</span> % counter    </span><br><span class="line">    counter += <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>for循环<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 遍历字符串串中的每⼀一个字符 </span></span><br><span class="line">a = <span class="string">'hehe'</span> </span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> a:   </span><br><span class="line">    <span class="keyword">print</span> c</span><br><span class="line">&gt;&gt;&gt;h </span><br><span class="line">e </span><br><span class="line">h </span><br><span class="line">e</span><br></pre></td></tr></table></figure></p>
+<p>Python中交换两个数的值非常简便<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="number">100</span></span><br><span class="line">y = <span class="number">200</span></span><br><span class="line">x,y = y,x</span><br></pre></td></tr></table></figure></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年05月20日 22:35</p>
+        <p>原始链接： <a class="post-url" href="/2019/05/20/Python快速入门/" title="Python快速入门">http://CQolive.github.io/2019/05/20/Python快速入门/</a></p>
+        <footer>
+            <a href="http://CQolive.github.io">
+                <img src="/images/logo.png" alt>
+                
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/05/20/Python快速入门/&title=《Python快速入门》 — Olive&pic=/images/Python/1_1.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/05/20/Python快速入门/&title=《Python快速入门》 — Olive&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/05/20/Python快速入门/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Python快速入门》 — Olive&url=http://CQolive.github.io/2019/05/20/Python快速入门/&via=http://CQolive.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/05/20/Python快速入门/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/05/20/Python快速入门/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Python/" class="color2">Python</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Python背景介绍"><span class="post-toc-text">Python背景介绍</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Python快速入门"><span class="post-toc-text">Python快速入门</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/16/栈和队列/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">栈和队列</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                owner: 'true',
+                repo: '',
+                oauth: {
+                    client_id: '',
+                    client_secret: '',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Olive<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://CQolive.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/First/">First</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/ROS/" style="font-size: 15px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 20px;">数据与结构</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>主页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>文章</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/ROS/" style="font-size: 15px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 20px;">数据与结构</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
