@@ -3,22 +3,23 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>Hello World | Olive</title>
+  <title>unbuntu16-04下安装opencv | Olive</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="CQ,Olive's Blog">
   
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://CQolive.github.io/hello-world.html">
+  <meta name="description" content="1.去官网下载opencv，opencv3.4.1。下载链接http://opencv.org/releases.html，选择sources版本2.解压下载下来的zip包 unzip opencv-3.4.1.zip 3.进入到解压后的文件包中4.安装依赖库和cmake ，如果提醒需要apt-get update，那就先sudo su进入root权限，再sudo apt-get update，然">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="unbuntu16-04下安装opencv">
+<meta property="og:url" content="http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/index.html">
 <meta property="og:site_name" content="Olive">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="1.去官网下载opencv，opencv3.4.1。下载链接http://opencv.org/releases.html，选择sources版本2.解压下载下来的zip包 unzip opencv-3.4.1.zip 3.进入到解压后的文件包中4.安装依赖库和cmake ，如果提醒需要apt-get update，那就先sudo su进入root权限，再sudo apt-get update，然">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-02T04:39:46.514Z">
+<meta property="og:updated_time" content="2019-05-21T13:57:24.078Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="unbuntu16-04下安装opencv">
+<meta name="twitter:description" content="1.去官网下载opencv，opencv3.4.1。下载链接http://opencv.org/releases.html，选择sources版本2.解压下载下来的zip包 unzip opencv-3.4.1.zip 3.进入到解压后的文件包中4.安装依赖库和cmake ，如果提醒需要apt-get update，那就先sudo su进入root权限，再sudo apt-get update，然">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -136,20 +137,20 @@ ga('send', 'pageview');
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="page-" class="article article-type-page" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-unbuntu16-04下安装opencv" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      Hello World
+      unbuntu16-04下安装opencv
     </h1>
     <div class="post-title-bar">
       <ul>
           
         <li>
-          <i class="fa fa-calendar"></i>  2019-05-03
+          <i class="fa fa-calendar"></i>  2019-05-21
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -162,23 +163,50 @@ ga('send', 'pageview');
           
       </header>
     
-    <div class="article-entry " itemprop="articleBody">
+    <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+            <p>1.去官网下载opencv，opencv3.4.1。<br>下载链接<a href="http://opencv.org/releases.html，选择sources版本" target="_blank" rel="noopener">http://opencv.org/releases.html，选择sources版本</a><br>2.解压下载下来的zip包</p>
+<pre><code>unzip opencv-3.4.1.zip
+</code></pre><p>3.进入到解压后的文件包中<br>4.安装依赖库和cmake ，如果提醒需要apt-get update，那就先sudo su进入root权限，再sudo apt-get update，然后在执行下面命令</p>
+<pre><code>sudo apt-get install cmake  
+sudo apt-get install build-essential libgtk2.0-dev libavcodec-dev libavformat-dev libjpeg.dev libtiff4.dev libswscale-dev libjasper-dev  
+</code></pre><p>5.安装完cmake之后执行命令 ,创建编译文件夹</p>
+<pre><code>mkdir my_build_dir
+cd my_build_dir
+</code></pre><p>6.cmake编译文件</p>
+<pre><code>cmake -D CMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
+</code></pre><p>  注意：如果已经在新的文件夹中编译，但是还会出现之前的报错，把cmakecache.txt删了再编译就可</p>
+<p>7.编译文件</p>
+<pre><code>sudo make
+</code></pre><p>8.执行命令</p>
+<pre><code>sudo make install
+</code></pre><p>9.执行完毕后OpenCV编译过程就结束了，接下来就需要配置一些OpenCV的编译环境首先将OpenCV的库添加到路径，从而可以让系统找到</p>
+<pre><code>sudo gedit /etc/ld.so.conf.d/opencv.conf 
+</code></pre><p>执行此命令后打开的可能是一个空白的文件，需要在文件末尾添加</p>
+<pre><code>/usr/local/lib  
+</code></pre><p>10.执行如下命令使得刚才的配置路径生效</p>
+<pre><code>sudo ldconfig  
+</code></pre><p>如果有错借鉴上面第一个博客，在此不再赘述。</p>
+<p>11.配置bash</p>
+<pre><code>sudo gedit /etc/bash.bashrc  
+</code></pre><p>在最末尾添加</p>
+<pre><code>PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig  
+export PKG_CONFIG_PATH  
+</code></pre><p>保存，执行如下命令使得配置生效</p>
+<pre><code>source /etc/bash.bashrc  
+</code></pre><p>更新</p>
+<pre><code>sudo updatedb
+</code></pre><p>12.测试<br>opencv-3.4.1/samples/cpp/example_cmake目录下<br>按顺序执行</p>
+<pre><code>cmake .
+make
+./opencv_example
+</code></pre><p>即可看到打开了摄像头，在左上角有一个hello opencv<br>即表示配置成功</p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年05月02日 12:39</p>
-        <p>原始链接： <a class="post-url" href="/hello-world.html" title="Hello World">http://CQolive.github.io/hello-world.html</a></p>
+        <p>最后更新： 2019年05月21日 21:57</p>
+        <p>原始链接： <a class="post-url" href="/2019/05/21/unbuntu16-04下安装opencv/" title="unbuntu16-04下安装opencv">http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/</a></p>
         <footer>
             <a href="http://CQolive.github.io">
                 <img src="/images/logo.png" alt>
@@ -235,7 +263,7 @@ ga('send', 'pageview');
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/hello-world.html&title=《Hello World》 — Olive&pic=http://CQolive.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/&title=《unbuntu16-04下安装opencv》 — Olive&pic=/images/Linux基本操作/1_2.jpg" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -245,22 +273,22 @@ ga('send', 'pageview');
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/hello-world.html&title=《Hello World》 — Olive&source=" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/&title=《unbuntu16-04下安装opencv》 — Olive&source=" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/hello-world.html" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Hello World》 — Olive&url=http://CQolive.github.io/hello-world.html&via=http://CQolive.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《unbuntu16-04下安装opencv》 — Olive&url=http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/&via=http://CQolive.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/hello-world.html" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -270,7 +298,7 @@ ga('send', 'pageview');
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/hello-world.html" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -279,6 +307,13 @@ ga('send', 'pageview');
         <ul class="article-footer-menu">
             
             
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+  </li>
+
         </ul>
         
     </footer>
@@ -286,12 +321,16 @@ ga('send', 'pageview');
 </article>
 
 
-    <aside class="post-toc-pos post-toc-top" id="post-toc">
-        <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Quick-Start"><span class="post-toc-text">Quick Start</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Create-a-new-post"><span class="post-toc-text">Create a new post</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Run-server"><span class="post-toc-text">Run server</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Generate-static-files"><span class="post-toc-text">Generate static files</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Deploy-to-remote-sites"><span class="post-toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
-        </nav>
-    </aside>
-    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/20/Python快速入门/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Python快速入门</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
 
 
 
