@@ -3,23 +3,25 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>unbuntu16-04下安装opencv | Olive</title>
+  <title>Linux常用工具 | Olive</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="CQ,Olive's Blog">
   
-  <meta name="description" content="1.去官网下载opencv，opencv3.4.1。下载链接http://opencv.org/releases.html，选择sources版本2.解压下载下来的zip包 unzip opencv-3.4.1.zip 3.进入到解压后的文件包中4.安装依赖库和cmake ，如果提醒需要apt-get update，那就先sudo su进入root权限，再sudo apt-get update，然">
+  <meta name="description" content="Linux常用工具环境：CentOS7工具：yum，vim，GBD，Makefile, yumyum: 软件包管理工具查看软件包 yum list安装软件包  yum install package_name移除软件包 yum remove package_name vim编辑器因为vim中默认不能输用鼠标，因此为了完成能够插入，删除，复制，粘贴各个操作，vim将操作分为了很多模式：12种模式，常">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="unbuntu16-04下安装opencv">
-<meta property="og:url" content="http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/index.html">
+<meta property="og:title" content="Linux常用工具">
+<meta property="og:url" content="http://CQolive.github.io/2019/05/23/Linux常用工具/index.html">
 <meta property="og:site_name" content="Olive">
-<meta property="og:description" content="1.去官网下载opencv，opencv3.4.1。下载链接http://opencv.org/releases.html，选择sources版本2.解压下载下来的zip包 unzip opencv-3.4.1.zip 3.进入到解压后的文件包中4.安装依赖库和cmake ，如果提醒需要apt-get update，那就先sudo su进入root权限，再sudo apt-get update，然">
+<meta property="og:description" content="Linux常用工具环境：CentOS7工具：yum，vim，GBD，Makefile, yumyum: 软件包管理工具查看软件包 yum list安装软件包  yum install package_name移除软件包 yum remove package_name vim编辑器因为vim中默认不能输用鼠标，因此为了完成能够插入，删除，复制，粘贴各个操作，vim将操作分为了很多模式：12种模式，常">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-21T13:57:24.078Z">
+<meta property="og:image" content="d:/github博客(Hexo">
+<meta property="og:updated_time" content="2019-05-23T08:12:29.571Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="unbuntu16-04下安装opencv">
-<meta name="twitter:description" content="1.去官网下载opencv，opencv3.4.1。下载链接http://opencv.org/releases.html，选择sources版本2.解压下载下来的zip包 unzip opencv-3.4.1.zip 3.进入到解压后的文件包中4.安装依赖库和cmake ，如果提醒需要apt-get update，那就先sudo su进入root权限，再sudo apt-get update，然">
+<meta name="twitter:title" content="Linux常用工具">
+<meta name="twitter:description" content="Linux常用工具环境：CentOS7工具：yum，vim，GBD，Makefile, yumyum: 软件包管理工具查看软件包 yum list安装软件包  yum install package_name移除软件包 yum remove package_name vim编辑器因为vim中默认不能输用鼠标，因此为了完成能够插入，删除，复制，粘贴各个操作，vim将操作分为了很多模式：12种模式，常">
+<meta name="twitter:image" content="d:/github博客(Hexo">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -137,20 +139,20 @@ ga('send', 'pageview');
     </div>
 </header>
       <div class="outer">
-        <section id="main" class="body-wrap"><article id="post-unbuntu16-04下安装opencv" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main" class="body-wrap"><article id="post-Linux常用工具" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="post-title" itemprop="name">
-      unbuntu16-04下安装opencv
+      Linux常用工具
     </h1>
     <div class="post-title-bar">
       <ul>
           
         <li>
-          <i class="fa fa-calendar"></i>  2019-05-21
+          <i class="fa fa-calendar"></i>  2019-05-23
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -166,47 +168,25 @@ ga('send', 'pageview');
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <p>1.去官网下载opencv，opencv3.4.1。<br>下载链接<a href="http://opencv.org/releases.html，选择sources版本" target="_blank" rel="noopener">http://opencv.org/releases.html，选择sources版本</a><br>2.解压下载下来的zip包</p>
-<pre><code>unzip opencv-3.4.1.zip
-</code></pre><p>3.进入到解压后的文件包中<br>4.安装依赖库和cmake ，如果提醒需要apt-get update，那就先sudo su进入root权限，再sudo apt-get update，然后在执行下面命令</p>
-<pre><code>sudo apt-get install cmake  
-sudo apt-get install build-essential libgtk2.0-dev libavcodec-dev libavformat-dev libjpeg.dev libtiff4.dev libswscale-dev libjasper-dev  
-</code></pre><p>5.安装完cmake之后执行命令 ,创建编译文件夹</p>
-<pre><code>mkdir my_build_dir
-cd my_build_dir
-</code></pre><p>6.cmake编译文件</p>
-<pre><code>cmake -D CMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
-</code></pre><p>  注意：如果已经在新的文件夹中编译，但是还会出现之前的报错，把cmakecache.txt删了再编译就可</p>
-<p>7.编译文件</p>
-<pre><code>sudo make
-</code></pre><p>8.执行命令</p>
-<pre><code>sudo make install
-</code></pre><p>9.执行完毕后OpenCV编译过程就结束了，接下来就需要配置一些OpenCV的编译环境首先将OpenCV的库添加到路径，从而可以让系统找到</p>
-<pre><code>sudo gedit /etc/ld.so.conf.d/opencv.conf 
-</code></pre><p>执行此命令后打开的可能是一个空白的文件，需要在文件末尾添加</p>
-<pre><code>/usr/local/lib  
-</code></pre><p>10.执行如下命令使得刚才的配置路径生效</p>
-<pre><code>sudo ldconfig  
-</code></pre><p>如果有错借鉴上面第一个博客，在此不再赘述。</p>
-<p>11.配置bash</p>
-<pre><code>sudo gedit /etc/bash.bashrc  
-</code></pre><p>在最末尾添加</p>
-<pre><code>PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig  
-export PKG_CONFIG_PATH  
-</code></pre><p>保存，执行如下命令使得配置生效</p>
-<pre><code>source /etc/bash.bashrc  
-</code></pre><p>更新</p>
-<pre><code>sudo updatedb
-</code></pre><p>12.测试<br>opencv-3.4.1/samples/cpp/example_cmake目录下<br>按顺序执行</p>
-<pre><code>cmake .
-make
-./opencv_example
-</code></pre><p>即可看到打开了摄像头，在左上角有一个hello opencv<br>即表示配置成功</p>
+            <h3 id="Linux常用工具"><a href="#Linux常用工具" class="headerlink" title="Linux常用工具"></a>Linux常用工具</h3><p>环境：CentOS7<br>工具：yum，vim，GBD，Makefile,</p>
+<h3 id="yum"><a href="#yum" class="headerlink" title="yum"></a>yum</h3><p>yum: 软件包管理工具<br>查看软件包 yum list<br>安装软件包  yum install package_name<br>移除软件包 yum remove package_name</p>
+<h3 id="vim编辑器"><a href="#vim编辑器" class="headerlink" title="vim编辑器"></a>vim编辑器</h3><p>因为vim中默认不能输用鼠标，因此为了完成能够插入，删除，复制，粘贴各个操作，vim将操作分为了很多模式：12种模式，常用的有三种：<br><strong>插入模式</strong>：插入数据<br><strong>普通模式</strong>：完成命令操作（移动光标，复制，粘贴，删除，撤销）<br><strong>底行模式</strong>：保存文件，推出编辑</p>
+<p><img src="D:\github博客(Hexo" alt>\Github-Hexo\themes\miho\source\images\Linux常用工具\1_1.png)</p>
+<p>模式切换：</p>
+<p><strong>普通模式—&gt;插入模式</strong><br>i   从光标所在位置开始插入                    I   光标移动到行首，开始插入<br>a  光标移动到下一个字符处开始插入    A   光标移动到行尾，开始插入<br>o  光标所在行下方添加新行开始插入    O   光标所在行上方添加新行开始插入<br><strong>插入模式—&gt;普通模式</strong><br>ESC<br><strong>普通模式—&gt;底行模式</strong><br>：         /<br><strong>底行模式—&gt;普通模式</strong><br>ESC<br><strong>底行模式下的操作：</strong><br>:w   :wq   :q   :q!   保存退出操作<br>/string   ?string  字符串查找<br><strong>普通模式下的操作：</strong><br>光标移动：hjkl 左下上有    w/b 按单词移动   ctrl+f/ctrl+b 向下/上翻页   gg/G 光标移动到文档开始/        最后<br>复制：yy  复制当前行  n+yy  复制当前行向下n行<br>粘贴：p 向光标所在行下方粘贴  P 向光标所在行上方粘贴<br>删除：dd 删除光标所在当前行   ndd 删除光标所在行向下n行数据   x删除光标所在字符<br>     dw 删除单词   D删除光标后的数据<br>撤销：u<br>恢复撤销：ctrl+r</p>
+<h3 id="Gcc-编译器"><a href="#Gcc-编译器" class="headerlink" title="Gcc 编译器"></a>Gcc 编译器</h3><p>gcc将高级语言（C语言）编译成机器可以识别的语言<br><strong>预处理：</strong>去掉注释，展开代码  gcc -E main.c -o main.i<br><strong>编译：</strong>语法语义纠错，将c语言代码解释成为汇编代码   gcc -S main.i -o main.o<br><strong>汇编：</strong>将汇编代码解释成为二进制文件（机器指令）   gcc -c main.o<br><strong>链接：</strong>链接库文件中的代码<br><strong>静态链接：</strong>链接静态库。将库中代码拷贝到程序中，程序比较大，但是运行时不需要依赖静态库存            在。静态库如果多个程序使用了相同的静态库，运行时程序被加载到到内存中，会出现冗             余代码。<br><strong>动态链接（共享库/运行时库）：</strong>连接动态库。记录函数位置符号信息，程序比较小，但是运行时需要依赖动态空的存            在。共享一块内存<br>gcc默认是<strong>动态链接</strong><br><strong>gcc常用选项：</strong><br>-E 只进行预处理<br>-S 只进行编译<br>-c 只进行汇编<br>-o 用于生成指定文件名称<br>-static 使用静态链接</p>
+<h3 id="GBD调试器"><a href="#GBD调试器" class="headerlink" title="GBD调试器"></a>GBD调试器</h3><p>调试程序的运行过程—调试bug’<br>GBD加载程序的时候如果有程序运行参数，不能加载的时候给予，在run的时候加入参数<br>0.向程序中加入调试符号信息<br>   gcc默认生成的是release发布版程序，可执行程序中没有任何调试信息。</p>
+<p>   gcc -g 生成Debug程序<br>1.加载程序<br>   gbd  ./main<br>2.开始调试<br>   run 程序开始<br>   start 开始逐步调试<br>3.常见操作<br>   list 查看代码<br>       list file:line<br>   n  下一步 不跟踪进入函数，直接将函数运行完毕（逐过程）<br>   s  下一步  跟踪进入函数（逐语句）<br>   until 直接运行到指定行<br>      until file:line<br>4.断点相关<br>   b file:line 在第line行加断点<br>   b function_name 函数加断点<br>   info b 查看断点<br>   print 查看变量<br>      print var<br>   continue 运行到下一个断点处继续运行<br>   delete 删除断点<br>      delete line 删除固定行断点<br>      delete 删除所有断点<br>   watch 变量监控，当变量改变时，停下来<br>      watch var<br>5.查看调用栈信息<br>   bt（backtrace） 查看函数调用栈—快速定位程序崩溃位置</p>
+<h3 id="make-Makefile-项目自动化构建工具"><a href="#make-Makefile-项目自动化构建工具" class="headerlink" title="make/Makefile 项目自动化构建工具"></a>make/Makefile 项目自动化构建工具</h3><p>Makefile：普通文本文件，但是不普通的是makefile记录的是项目的构建流程规则。<br>make：一个程序—makefile解释器，解释makefile中的项目构建规则，完成项目构建。<br>   在当前目录下输入make命令，make程序到当前目录下找makefile文件，逐行解释。<br>Makefile基本编写规则：<br>   目标对象：[依赖对象]<br>   tab  要执行的命令<br>make的解释规则：<br>   make打开makefile文件后，找寻第一个目标对象名称<br>      若没有找到：认为没有要生成的对象，报错退出<br>      若找到了：判断目标对象是否存在：<br>         目标对象文件若存在：判断是否有依赖对象名称<br>            若没有依赖对象名称：认为目标对象以经生成，不需要重新执行命令生成<br>            若有依赖对象名称：判断依赖对象文件是否存在：<br>               若存在：判断目标对象文件与依赖对象的时间关系<br>               若不存在：在makefile继续向下查找依赖对象的生成规则<br>                  依赖对象在下一条规则中作为目标对象被生成，进而生成第一个目标对象后退出<br>         目标对象文件不存在：<br>            则直接执行命令生成<br>makefile预定义变量：$@ $&lt; $^<br>    $@:目标对象<br>    $&lt;:所有的依赖对象<br>    $^:依赖对象的第一个<br>伪对象：不管对象是否最新，是否存在，每次都需要为对象执行生成命令<br>声明伪对象： .PHONY : clean</p>
+<blockquote>
+<p><em>makefile中变量的赋值方式：有何不同？</em></p>
+</blockquote>
+<h3 id="git-项目版本管理工具"><a href="#git-项目版本管理工具" class="headerlink" title="git  项目版本管理工具"></a>git  项目版本管理工具</h3><p>git和svn<br>git：分布式版本控制器<br>svn：集中式版本控制器<br>git基本操作<br>   下载服务器上的代码：<br>      git clone<br>   修改代码后，本地提交（本地管理）：<br>      git add newfile<br>      git commit -m “2019/5/13 description”<br>   将本地修改提交到服务器：<br>      git push origin master<br>      master是git代码管理主分支</p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年05月21日 21:57</p>
-        <p>原始链接： <a class="post-url" href="/2019/05/21/unbuntu16-04下安装opencv/" title="unbuntu16-04下安装opencv">http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/</a></p>
+        <p>最后更新： 2019年05月23日 16:12</p>
+        <p>原始链接： <a class="post-url" href="/2019/05/23/Linux常用工具/" title="Linux常用工具">http://CQolive.github.io/2019/05/23/Linux常用工具/</a></p>
         <footer>
             <a href="http://CQolive.github.io">
                 <img src="/images/logo.png" alt>
@@ -263,7 +243,7 @@ make
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/&title=《unbuntu16-04下安装opencv》 — Olive&pic=/images/Linux基本操作/1_2.jpg" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/05/23/Linux常用工具/&title=《Linux常用工具》 — Olive&pic=/images/Linux基本操作/1_2.jpg" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -273,22 +253,22 @@ make
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/&title=《unbuntu16-04下安装opencv》 — Olive&source=" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/05/23/Linux常用工具/&title=《Linux常用工具》 — Olive&source=" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/05/23/Linux常用工具/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《unbuntu16-04下安装opencv》 — Olive&url=http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/&via=http://CQolive.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Linux常用工具》 — Olive&url=http://CQolive.github.io/2019/05/23/Linux常用工具/&via=http://CQolive.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/05/23/Linux常用工具/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -298,7 +278,7 @@ make
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/05/21/unbuntu16-04下安装opencv/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/05/23/Linux常用工具/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -321,22 +301,18 @@ make
 </article>
 
 
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Linux常用工具"><span class="post-toc-text">Linux常用工具</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#yum"><span class="post-toc-text">yum</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#vim编辑器"><span class="post-toc-text">vim编辑器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Gcc-编译器"><span class="post-toc-text">Gcc 编译器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#GBD调试器"><span class="post-toc-text">GBD调试器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#make-Makefile-项目自动化构建工具"><span class="post-toc-text">make/Makefile 项目自动化构建工具</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#git-项目版本管理工具"><span class="post-toc-text">git  项目版本管理工具</span></a></li></ol>
+        </nav>
+    </aside>
+    
 
 <nav id="article-nav">
   
-    <a href="/2019/05/23/Linux常用工具/" id="article-nav-newer" class="article-nav-link-wrap">
-
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          Linux常用工具
-        
-      </span>
-    </a>
   
-  
-    <a href="/2019/05/20/Python快速入门/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">Python快速入门</span>
+    <a href="/2019/05/21/unbuntu16-04下安装opencv/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">unbuntu16-04下安装opencv</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
