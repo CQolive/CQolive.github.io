@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>基于深度学习的ROS-机器人操作系统的目标检测 | Olive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="CQ,Olive's Blog">
+  
+  <meta name="description" content="一.环境搭建硬件主机：i7八代，GPU1660软件环境：Ubuntu16.04，ROS（kinetic) 1.安装英伟达驱动1.1 在英伟达官网驱动页面下寻找自己显卡的驱动（型号一定要查询清楚）https://www.geforce.cn/drivers以GTX1660为例：点击搜索后任意下载其中一个即可： 1.2 下载完成后，首先卸载卸载所有系统自己安装的 nvidia 驱动和第三方的GPU驱动">
+<meta name="keywords" content="ROS,深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于深度学习的ROS-机器人操作系统的目标检测">
+<meta property="og:url" content="http://CQolive.github.io/2019/05/13/基于深度学习的ROS-机器人操作系统-目标检测/index.html">
+<meta property="og:site_name" content="Olive">
+<meta property="og:description" content="一.环境搭建硬件主机：i7八代，GPU1660软件环境：Ubuntu16.04，ROS（kinetic) 1.安装英伟达驱动1.1 在英伟达官网驱动页面下寻找自己显卡的驱动（型号一定要查询清楚）https://www.geforce.cn/drivers以GTX1660为例：点击搜索后任意下载其中一个即可： 1.2 下载完成后，首先卸载卸载所有系统自己安装的 nvidia 驱动和第三方的GPU驱动">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190418111257597.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/201904181113512.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190418114924530.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190418150444483.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190418150955674.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190418152419798.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190418153348602.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190418162204785.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190418162331345.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190418163004120.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-05-30T08:09:37.559Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于深度学习的ROS-机器人操作系统的目标检测">
+<meta name="twitter:description" content="一.环境搭建硬件主机：i7八代，GPU1660软件环境：Ubuntu16.04，ROS（kinetic) 1.安装英伟达驱动1.1 在英伟达官网驱动页面下寻找自己显卡的驱动（型号一定要查询清楚）https://www.geforce.cn/drivers以GTX1660为例：点击搜索后任意下载其中一个即可： 1.2 下载完成后，首先卸载卸载所有系统自己安装的 nvidia 驱动和第三方的GPU驱动">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190418111257597.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?true";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+  <div style="display: none;">
+    <script src="//s22.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
+  </div>
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Olive</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>主页</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>文章</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Olive
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        C/C++ ROS Linux 深度学习
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Olive" target="_blank" href="http://CQolive.github.io">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="https://github.com/CQolive?tab=repositories">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-基于深度学习的ROS-机器人操作系统-目标检测" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      基于深度学习的ROS-机器人操作系统的目标检测
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-05-13
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="一-环境搭建"><a href="#一-环境搭建" class="headerlink" title="一.环境搭建"></a>一.环境搭建</h3><p>硬件主机：i7八代，GPU1660<br>软件环境：Ubuntu16.04，ROS（kinetic)</p>
+<h4 id="1-安装英伟达驱动"><a href="#1-安装英伟达驱动" class="headerlink" title="1.安装英伟达驱动"></a>1.安装英伟达驱动</h4><h5 id="1-1-在英伟达官网驱动页面下寻找自己显卡的驱动（型号一定要查询清楚）https-www-geforce-cn-drivers"><a href="#1-1-在英伟达官网驱动页面下寻找自己显卡的驱动（型号一定要查询清楚）https-www-geforce-cn-drivers" class="headerlink" title="1.1 在英伟达官网驱动页面下寻找自己显卡的驱动（型号一定要查询清楚）https://www.geforce.cn/drivers"></a>1.1 在英伟达官网驱动页面下寻找自己显卡的驱动（型号一定要查询清楚）<a href="https://www.geforce.cn/drivers" target="_blank" rel="noopener">https://www.geforce.cn/drivers</a></h5><p>以GTX1660为例：<br><img src="https://img-blog.csdnimg.cn/20190418111257597.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>点击搜索后任意下载其中一个即可：<br><img src="https://img-blog.csdnimg.cn/201904181113512.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="1-2-下载完成后，首先卸载卸载所有系统自己安装的-nvidia-驱动和第三方的GPU驱动"><a href="#1-2-下载完成后，首先卸载卸载所有系统自己安装的-nvidia-驱动和第三方的GPU驱动" class="headerlink" title="1.2 下载完成后，首先卸载卸载所有系统自己安装的 nvidia 驱动和第三方的GPU驱动"></a>1.2 下载完成后，首先卸载卸载所有系统自己安装的 nvidia 驱动和第三方的GPU驱动</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove --purge nvidia*</span><br></pre></td></tr></table></figure>
+<p>编辑blacklist.conf文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/modprobe.d/blacklist.conf</span><br></pre></td></tr></table></figure>
+<p>添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">blacklist amd76x_edac</span><br><span class="line">blacklist vga16fb</span><br><span class="line">blacklist nouveau</span><br><span class="line">blacklist nvidiafb</span><br><span class="line">blacklist rivatv</span><br></pre></td></tr></table></figure>
+<p>然后执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-initramfs -u</span><br></pre></td></tr></table></figure>
+<p>重启后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep nouveau</span><br></pre></td></tr></table></figure>
+<p>查看是否为空。</p>
+<h5 id="1-3-开始安装"><a href="#1-3-开始安装" class="headerlink" title="1.3 开始安装"></a>1.3 开始安装</h5><p><strong>首先关闭图形界面</strong><br>(不然会报错：You appear to be running an X server; please exit X before….)<br>进入ubuntu后Ctrl+Alt+F1进入命令行界面 ，同时 su root 进入管理员模式进行安装，进入到安装包所在的目录后执行以下操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo service lightdm stop</span><br><span class="line">#关闭图形界面</span><br><span class="line"></span><br><span class="line">sudo chmod a+x NVIDIA-Linux-x86_64-390.77.run</span><br><span class="line">#后面的驱动要改为你自己的驱动，可在输入NVIDIA后按下Tab键自动补全</span><br><span class="line"></span><br><span class="line">$sudo ./NVIDIA-Linux-x86_64-390.77.run </span><br><span class="line">#开始安装</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：如果安装N卡驱动后系统卡在登陆界面或开机黑屏，可尝试添加–no-opengl-libs参数重新安装驱动。（sudo ./NVIDIA-Linux-x86_64-390.77.run –no-opengl-libs ）。不是N卡输出显示的话一定要加–no-opengl-libs 。<br><strong>在安装驱动的时候，有一布问你”Would you like to run the nvidia-xconfig utility to automatically update your X configuration file…”什么的，选择 No。</strong><br>然后顺序安装就可以了，安装完成后重启。<br> <strong>如果遇到循环登陆问题</strong> <a href="http://www.cnblogs.com/talugirl/p/5870875.html" target="_blank" rel="noopener">http://www.cnblogs.com/talugirl/p/5870875.html</a><br>重启后输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure>
+<p>出现<br><img src="https://img-blog.csdnimg.cn/20190418114924530.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>安装成功（注：没有安装CUDA则左上角没有 CDUA Version：10.1）</p>
+<h4 id="2-安装CUDA"><a href="#2-安装CUDA" class="headerlink" title="2.安装CUDA"></a>2.安装CUDA</h4><h5 id="2-1-下载cuda"><a href="#2-1-下载cuda" class="headerlink" title="2.1 下载cuda"></a>2.1 下载cuda</h5><p>在英伟达官网 <a href="https://developer.nvidia.com/cuda-toolkit-archive" target="_blank" rel="noopener">https://developer.nvidia.com/cuda-toolkit-archive</a> 选择合适的版本进行下载</p>
+<p><img src="https://img-blog.csdnimg.cn/20190418150444483.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>下载完成后，进入到文件所在的目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh cuda_10.0.130_410.48_linux.run</span><br></pre></td></tr></table></figure>
+<p><strong>注意：选择安装列表时把显卡驱动选项去掉</strong><br><img src="https://img-blog.csdnimg.cn/20190418150955674.png" alt="在这里插入图片描述"><br>然后忽略一切警告，一路安装即可。</p>
+<h5 id="2-2-添加环境变量"><a href="#2-2-添加环境变量" class="headerlink" title="2.2 添加环境变量"></a>2.2 添加环境变量</h5><p>打开bash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ~/.bashrc</span><br></pre></td></tr></table></figure></p>
+<p>在最后添加下面语句(版本不同修改相应版本即可，下面是添加10.0的)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/usr/local/cuda-10.0/bin$&#123;PATH:+:$&#123;PATH&#125;&#125;</span><br><span class="line">export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64$&#123;LD_LIBRARY_PATH:+:$&#123;LD_LIBRARY_PATH&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>保存退出后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+<h5 id="2-3-测试"><a href="#2-3-测试" class="headerlink" title="2.3 测试"></a>2.3 测试</h5><p>依次运行以下语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/cuda/samples/1_Utilities/deviceQuery </span><br><span class="line">sudo make</span><br><span class="line">./deviceQuer</span><br></pre></td></tr></table></figure>
+<p>出现下面结果运行成功：<br><img src="https://img-blog.csdnimg.cn/20190418152419798.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="3-安装cudnn"><a href="#3-安装cudnn" class="headerlink" title="3.安装cudnn"></a>3.安装cudnn</h4><p>在英伟达官网下载对应CUDA版本的cudnn，下载需要注册登陆：<a href="https://developer.nvidia.com/cudnn" target="_blank" rel="noopener">https://developer.nvidia.com/cudnn</a><br>不要下载DEB版本的文件下载后缀为 .solitairetheme8的文件：<br><img src="https://img-blog.csdnimg.cn/20190418153348602.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>下载完成后进入到文家所在目录，把文件后缀改为.tgz格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv cudnn-10.0-linux-x64-v7.3.0.29.solitairetheme8 cudnn-10.0-linux-x64-v7.3.0.29.tgz</span><br></pre></td></tr></table></figure>
+<p>然后解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zvxf cudnn-10.0-linux-x64-v7.3.0.29.tgz</span><br></pre></td></tr></table></figure>
+<p>进入到解压后的文件（是cudnn解压后的）：<br>进入到include目录下（可能只有cudnn.h一个文件）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp *.h /usr/local/cuda/include/</span><br></pre></td></tr></table></figure></p>
+<p>进入到lib64目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo co ./* /usr/local/cuda/lib64/</span><br></pre></td></tr></table></figure>
+<p>然后提升权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod a+r /usr/local/cuda/include/cudnn.h</span><br></pre></td></tr></table></figure>
+<p>全部配置完成！</p>
+<h4 id="4-安装Tensorflow（GPU版本）"><a href="#4-安装Tensorflow（GPU版本）" class="headerlink" title="4.安装Tensorflow（GPU版本）"></a>4.安装Tensorflow（GPU版本）</h4><h6 id="4-1-更换PIP的源，不然安装太慢"><a href="#4-1-更换PIP的源，不然安装太慢" class="headerlink" title="4.1 更换PIP的源，不然安装太慢"></a>4.1 更换PIP的源，不然安装太慢</h6><p>根目录创建.pip文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.pip</span><br></pre></td></tr></table></figure></p>
+<p>创建文件pip.conf：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim .pip/pip.conf</span><br></pre></td></tr></table></figure>
+<p>复制信息:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[global]</span><br><span class="line">index-url = https://pypi.tuna.tsinghua.edu.cn/simple</span><br><span class="line">trusted-host = pypi.tuna.tsinghua.edu.cn</span><br></pre></td></tr></table></figure></p>
+<h5 id="4-2-安装Tensorflow"><a href="#4-2-安装Tensorflow" class="headerlink" title="4.2 安装Tensorflow"></a>4.2 安装Tensorflow</h5><p>输入以下命令默认安装最新版本Tensorflow</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install tensorflow-gpu</span><br></pre></td></tr></table></figure>
+<p>安装完成后在python脚本下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow</span><br></pre></td></tr></table></figure>
+<p>没有任何提示则安装成功。</p>
+<h4 id="5（选做）-安装google-cloud-sdk"><a href="#5（选做）-安装google-cloud-sdk" class="headerlink" title="5（选做） 安装google-cloud-sdk"></a>5（选做） 安装google-cloud-sdk</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo snap install google-cloud-sdk --classic</span><br></pre></td></tr></table></figure>
+<p>安装Google Vision API（需要谷歌账号才能使用）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade google-cloud-vision</span><br></pre></td></tr></table></figure>
+<p>在谷歌 <a href="https://console.cloud.google.com/projectselector/apis/credentials?folder&amp;organizationId=0&amp;supportedpurview=project生成个人密钥" target="_blank" rel="noopener">https://console.cloud.google.com/projectselector/apis/credentials?folder&amp;organizationId=0&amp;supportedpurview=project生成个人密钥</a><br><img src="https://img-blog.csdnimg.cn/20190418162204785.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>随便创建一个项目，选择这个项目。<br><img src="https://img-blog.csdnimg.cn/20190418162331345.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>下载JSON文件到本地。<br>然后在用之前使用以下命令，在验证身份时找到JSON文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export GOOGLE_APPLICATION_CREDENTIALS=&quot;/home/user/Downloads/[FILE_NAME].json&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="二-简单例程"><a href="#二-简单例程" class="headerlink" title="二.简单例程"></a>二.简单例程</h4><p>在简单实用yolo模型进行识别，在ros框架用电脑自带的摄像头进行识别下，首先创建简单的ros功能包，调用yolo模型后，结果如下：<br>（其他原因代码不公开，需要的话私聊）</p>
+<p><img src="https://img-blog.csdnimg.cn/20190418163004120.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年05月30日 16:09</p>
+        <p>原始链接： <a class="post-url" href="/2019/05/13/基于深度学习的ROS-机器人操作系统-目标检测/" title="基于深度学习的ROS-机器人操作系统的目标检测">http://CQolive.github.io/2019/05/13/基于深度学习的ROS-机器人操作系统-目标检测/</a></p>
+        <footer>
+            <a href="http://CQolive.github.io">
+                <img src="/images/logo.png" alt>
+                
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/05/13/基于深度学习的ROS-机器人操作系统-目标检测/&title=《基于深度学习的ROS-机器人操作系统的目标检测》 — Olive&pic=/images/ROS学习笔记/1_1.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/05/13/基于深度学习的ROS-机器人操作系统-目标检测/&title=《基于深度学习的ROS-机器人操作系统的目标检测》 — Olive&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/05/13/基于深度学习的ROS-机器人操作系统-目标检测/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《基于深度学习的ROS-机器人操作系统的目标检测》 — Olive&url=http://CQolive.github.io/2019/05/13/基于深度学习的ROS-机器人操作系统-目标检测/&via=http://CQolive.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/05/13/基于深度学习的ROS-机器人操作系统-目标检测/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/05/13/基于深度学习的ROS-机器人操作系统-目标检测/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/ROS/" class="color4">ROS</a>
+      
+    <a href="/tags/深度学习/" class="color5">深度学习</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一-环境搭建"><span class="post-toc-text">一.环境搭建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-安装英伟达驱动"><span class="post-toc-text">1.安装英伟达驱动</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-1-在英伟达官网驱动页面下寻找自己显卡的驱动（型号一定要查询清楚）https-www-geforce-cn-drivers"><span class="post-toc-text">1.1 在英伟达官网驱动页面下寻找自己显卡的驱动（型号一定要查询清楚）https://www.geforce.cn/drivers</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-2-下载完成后，首先卸载卸载所有系统自己安装的-nvidia-驱动和第三方的GPU驱动"><span class="post-toc-text">1.2 下载完成后，首先卸载卸载所有系统自己安装的 nvidia 驱动和第三方的GPU驱动</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-3-开始安装"><span class="post-toc-text">1.3 开始安装</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-安装CUDA"><span class="post-toc-text">2.安装CUDA</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-1-下载cuda"><span class="post-toc-text">2.1 下载cuda</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-2-添加环境变量"><span class="post-toc-text">2.2 添加环境变量</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-3-测试"><span class="post-toc-text">2.3 测试</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-安装cudnn"><span class="post-toc-text">3.安装cudnn</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-安装Tensorflow（GPU版本）"><span class="post-toc-text">4.安装Tensorflow（GPU版本）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#4-1-更换PIP的源，不然安装太慢"><span class="post-toc-text">4.1 更换PIP的源，不然安装太慢</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4-2-安装Tensorflow"><span class="post-toc-text">4.2 安装Tensorflow</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5（选做）-安装google-cloud-sdk"><span class="post-toc-text">5（选做） 安装google-cloud-sdk</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#二-简单例程"><span class="post-toc-text">二.简单例程</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/05/15/动态顺序表/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          动态顺序表
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/05/13/ROS学习笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">ROS学习笔记</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                owner: 'true',
+                repo: '',
+                oauth: {
+                    client_id: '',
+                    client_secret: '',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Olive<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://CQolive.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/First/">First</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/ROS/" style="font-size: 14px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 18px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>主页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>文章</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/ROS/" style="font-size: 14px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 18px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
