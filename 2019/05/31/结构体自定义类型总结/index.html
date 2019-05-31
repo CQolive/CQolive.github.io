@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>结构体自定义类型总结 | Olive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="CQ,Olive's Blog">
+  
+  <meta name="description" content="一、创建结构体1、结构体是是一些值的集合，这些值被称为成员变量。2、结构体内的成员可以是不同类型的成员变量。3、创建结构体 12345struct S&amp;#123;         //结构体名称	int a;        //内部成员	char b;       //内部成员	double c;     //内部成员&amp;#125;; 4、结构体内部成员的访问：（1）结构体变量访问成员（结构变量的成">
+<meta name="keywords" content="C语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="结构体自定义类型总结">
+<meta property="og:url" content="http://CQolive.github.io/2019/05/31/结构体自定义类型总结/index.html">
+<meta property="og:site_name" content="Olive">
+<meta property="og:description" content="一、创建结构体1、结构体是是一些值的集合，这些值被称为成员变量。2、结构体内的成员可以是不同类型的成员变量。3、创建结构体 12345struct S&amp;#123;         //结构体名称	int a;        //内部成员	char b;       //内部成员	double c;     //内部成员&amp;#125;; 4、结构体内部成员的访问：（1）结构体变量访问成员（结构变量的成">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-05-31T08:05:41.012Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="结构体自定义类型总结">
+<meta name="twitter:description" content="一、创建结构体1、结构体是是一些值的集合，这些值被称为成员变量。2、结构体内的成员可以是不同类型的成员变量。3、创建结构体 12345struct S&amp;#123;         //结构体名称	int a;        //内部成员	char b;       //内部成员	double c;     //内部成员&amp;#125;; 4、结构体内部成员的访问：（1）结构体变量访问成员（结构变量的成">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?true";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+  <div style="display: none;">
+    <script src="//s22.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
+  </div>
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Olive</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>主页</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>文章</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Olive
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        C/C++ ROS Linux 深度学习
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Olive" target="_blank" href="http://CQolive.github.io">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="https://github.com/CQolive?tab=repositories">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-结构体自定义类型总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      结构体自定义类型总结
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-05-31
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="一、创建结构体"><a href="#一、创建结构体" class="headerlink" title="一、创建结构体"></a>一、创建结构体</h3><p>1、结构体是是一些值的集合，这些值被称为成员变量。<br>2、结构体内的成员可以是不同类型的成员变量。<br>3、创建结构体</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S</span>&#123;</span>         <span class="comment">//结构体名称</span></span><br><span class="line">	<span class="keyword">int</span> a;        <span class="comment">//内部成员</span></span><br><span class="line">	<span class="keyword">char</span> b;       <span class="comment">//内部成员</span></span><br><span class="line">	<span class="keyword">double</span> c;     <span class="comment">//内部成员</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>4、结构体内部成员的访问：（1）结构体变量访问成员（结构变量的成员是通过点操作符（.）访问的.操作符接受两个操作数。如果s是结构体的具体名称，age 是其内部成员，则s.age就可以访问）。<br>（2）结构体访问指针变量的成员（定义一个指向该结构体的结构类型的指针ps，如果age是该结构体的内部成员，则（*s）.age或者ps-&gt;就可以访问）。<br>5、结构体自引用：在结构体中可以包含该结构体本身的成员，具体的自引用如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">NODE</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> a;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">NODE</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h3 id="二、结构体初始化"><a href="#二、结构体初始化" class="headerlink" title="二、结构体初始化"></a>二、结构体初始化</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> x;</span><br><span class="line">    <span class="keyword">int</span> y;</span><br><span class="line">&#125;a;           <span class="comment">//声明类型的同时定义变量a</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span> <span class="title">b</span>;</span> <span class="comment">//定义结构体b</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span> <span class="title">c</span> = &#123;</span>x,y&#125;;  <span class="comment">//初始化：定义变量同时赋初值</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> data;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">Point</span> <span class="title">p</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">Node</span>* <span class="title">next</span>;</span></span><br><span class="line">&#125;n1 = (<span class="number">10</span>,&#123;<span class="number">4</span>,<span class="number">5</span>&#125;,<span class="literal">NULL</span>); <span class="comment">//结构体嵌套初始化</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span> <span class="title">n2</span> = &#123;</span><span class="number">20</span>,&#123;<span class="number">5</span>,<span class="number">6</span>&#125;,<span class="literal">NULL</span>&#125;;<span class="comment">//结构体嵌套初始化</span></span><br></pre></td></tr></table></figure>
+<h3 id="三、内存对齐"><a href="#三、内存对齐" class="headerlink" title="三、内存对齐"></a>三、内存对齐</h3><p><strong>内存对齐原则：</strong><br>1.第一个成员在结构体变量偏移量为0的地址。<br>2.其他成员变量对齐到对齐数的整数倍地址。VS默认8，linux默认4.<br>  <strong>对齐数</strong> = 与成员大小相比，取较小值。<br>3.结构体总大小为最大对齐数的整数倍。<br>4.如嵌套其他结构体，嵌套的结构体对齐到自己的最大对齐数的整数倍处，结构体的整体大小就是所有最大对齐数（包括嵌套的结构体）的整数倍。<br><strong>为什要内存对齐？</strong><br>平台原因(移植原因)： 不是所有的硬件平台都能访问任意地址上的任意数据的；某些硬件平台只能在某些地址 处取某些特定类型的数据，否则抛出硬件异常。<br>性能原因： 数据结构(尤其是栈)应该尽可能地在自然边界上对齐。 原因在于，为了访问未对齐的内存，处理 器需要作两次内存访问；而对齐的内存访问仅需要一次访问。<br><strong>例子</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">   <span class="keyword">char</span> a;  <span class="comment">//从偏移地址0开始，0</span></span><br><span class="line">   <span class="keyword">int</span> b;    <span class="comment">//占4个字节，与默认对齐数相比较小，对齐数取4，要从4的整数倍地址开始，4-7</span></span><br><span class="line">   <span class="keyword">char</span> c;   <span class="comment">//8</span></span><br><span class="line">&#125;</span><br><span class="line">总共<span class="number">9</span>个字节，因为最大对齐数为<span class="number">4</span>，所以总大小要是<span class="number">4</span>的倍数，所以最终大小为<span class="number">12</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S1</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">   <span class="keyword">char</span> a;  <span class="comment">// 0             1</span></span><br><span class="line">   <span class="keyword">char</span> b;    <span class="comment">// 1           2</span></span><br><span class="line">   <span class="keyword">int</span> c;   <span class="comment">// 4-7           4-7</span></span><br><span class="line">&#125;</span><br><span class="line">最终大小 <span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S3</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">   <span class="keyword">char</span> a;  <span class="comment">// 0</span></span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">S1</span> <span class="title">s</span>;</span>    <span class="comment">// 结构体最大对齐数为4，从地址为4的整数倍开始算， 所以所占地址为 4-11</span></span><br><span class="line">   <span class="keyword">int</span> c;   <span class="comment">// 12-15</span></span><br><span class="line">&#125;</span><br><span class="line">最终大小 <span class="number">16</span></span><br></pre></td></tr></table></figure>
+<h3 id="四、位段"><a href="#四、位段" class="headerlink" title="四、位段"></a>四、位段</h3><p>位段成员必须是int，unsigned int，signed int</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S</span></span></span><br><span class="line"><span class="class"> &#123;</span>    </span><br><span class="line">	<span class="keyword">char</span> a:<span class="number">3</span>;    </span><br><span class="line">	<span class="keyword">char</span> b:<span class="number">4</span>;  </span><br><span class="line">	<span class="keyword">char</span> c:<span class="number">5</span>; </span><br><span class="line">	<span class="keyword">char</span> d:<span class="number">4</span>;</span><br><span class="line">  &#125;; </span><br><span class="line">  a占<span class="number">3</span>位，b占<span class="number">4</span>位，刚好占一个字节，剩下一位丢弃。</span><br><span class="line">  c占<span class="number">5</span>位，d占<span class="number">4</span>位，两个字节。</span><br><span class="line">  总共占<span class="number">3</span>个字节。</span><br></pre></td></tr></table></figure>
+<h3 id="五、枚举"><a href="#五、枚举" class="headerlink" title="五、枚举"></a>五、枚举</h3><p>将内容一一列举：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> Sex<span class="comment">//性别</span></span><br><span class="line"> &#123;   </span><br><span class="line">  MALE,   </span><br><span class="line">  FEMALE, </span><br><span class="line">  SECRET</span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="六、联合"><a href="#六、联合" class="headerlink" title="六、联合"></a>六、联合</h3><p>联合也是一种特殊的自定义类型 这种类型定义的变量也包含一系列的成员，特征是这些成员公用同一块空间（所以 联合也叫共用体）可以用来判断大小端，以及ip地址转化。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> Un</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">char</span> a;</span><br><span class="line">	<span class="keyword">int</span> b;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">union</span> Un u;</span><br><span class="line">	u.b = <span class="number">0x1</span>;</span><br><span class="line">	<span class="keyword">if</span> (u.a == <span class="number">0x01</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"小端"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"大端"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年05月31日 16:05</p>
+        <p>原始链接： <a class="post-url" href="/2019/05/31/结构体自定义类型总结/" title="结构体自定义类型总结">http://CQolive.github.io/2019/05/31/结构体自定义类型总结/</a></p>
+        <footer>
+            <a href="http://CQolive.github.io">
+                <img src="/images/logo.png" alt>
+                
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/05/31/结构体自定义类型总结/&title=《结构体自定义类型总结》 — Olive&pic=/images/4_1.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/05/31/结构体自定义类型总结/&title=《结构体自定义类型总结》 — Olive&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/05/31/结构体自定义类型总结/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《结构体自定义类型总结》 — Olive&url=http://CQolive.github.io/2019/05/31/结构体自定义类型总结/&via=http://CQolive.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/05/31/结构体自定义类型总结/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/05/31/结构体自定义类型总结/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/C语言/" class="color4">C语言</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、创建结构体"><span class="post-toc-text">一、创建结构体</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、结构体初始化"><span class="post-toc-text">二、结构体初始化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#三、内存对齐"><span class="post-toc-text">三、内存对齐</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#四、位段"><span class="post-toc-text">四、位段</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#五、枚举"><span class="post-toc-text">五、枚举</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#六、联合"><span class="post-toc-text">六、联合</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/27/String库函数部分实现/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">String库函数部分实现</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                owner: 'true',
+                repo: '',
+                oauth: {
+                    client_id: '',
+                    client_secret: '',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Olive<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://CQolive.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/First/">First</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/ROS/" style="font-size: 14px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 18px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>主页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>文章</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/ROS/" style="font-size: 14px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 18px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
