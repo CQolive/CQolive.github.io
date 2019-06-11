@@ -3,21 +3,22 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>进程概念 | Olive</title>
+  <title>ROS学习笔记（二） | Olive</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="CQ,Olive's Blog">
   
   <meta name="description" content="一、ROS的节点1.前期准备：安装虚拟包$sudo apt-get install ros-kinetic-tutorials 2.ROS概念（英文原版）Nodes(节点): A node is an executable that uses ROS to communicate with other nodes.Messages(消息): ROS data type used when subs">
+<meta name="keywords" content="ROS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="进程概念">
-<meta property="og:url" content="http://CQolive.github.io/2019/06/10/ROS学习笔记（二）/index.html">
+<meta property="og:title" content="ROS学习笔记（二）">
+<meta property="og:url" content="http://CQolive.github.io/2019/06/11/ROS学习笔记（二）/index.html">
 <meta property="og:site_name" content="Olive">
 <meta property="og:description" content="一、ROS的节点1.前期准备：安装虚拟包$sudo apt-get install ros-kinetic-tutorials 2.ROS概念（英文原版）Nodes(节点): A node is an executable that uses ROS to communicate with other nodes.Messages(消息): ROS data type used when subs">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-10T14:33:20.513Z">
+<meta property="og:updated_time" content="2019-06-11T00:49:00.454Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="进程概念">
+<meta name="twitter:title" content="ROS学习笔记（二）">
 <meta name="twitter:description" content="一、ROS的节点1.前期准备：安装虚拟包$sudo apt-get install ros-kinetic-tutorials 2.ROS概念（英文原版）Nodes(节点): A node is an executable that uses ROS to communicate with other nodes.Messages(消息): ROS data type used when subs">
   
   
@@ -143,13 +144,13 @@ ga('send', 'pageview');
         
   
     <h1 class="post-title" itemprop="name">
-      进程概念
+      ROS学习笔记（二）
     </h1>
     <div class="post-title-bar">
       <ul>
           
         <li>
-          <i class="fa fa-calendar"></i>  2019-06-10
+          <i class="fa fa-calendar"></i>  2019-06-11
         </li>
         <li>
           <i class="fa fa-eye"></i>
@@ -237,7 +238,7 @@ $ rosservice call clear   //生效
 </code></pre><p>获取背景的绿色通道的值</p>
 <pre><code>$ rosparam get background_g 
 </code></pre><p> 显示参数服务器上的所有内容</p>
-<p>​<br>     $ rosparam get<br>        background_b: 255<br>        background_g: 86<br>        background_r: 150<br>        rosdistro: ‘kinetic<br>        roslaunch:<br>        uris: {host_ubuntu__37149: ‘<a href="http://ubuntu:37149/&#39;}" target="_blank" rel="noopener">http://ubuntu:37149/&#39;}</a><br>        rosversion: ‘1.12.13’<br>        run_id: 30be30a0-9e26-11e8-9edf-000c290a5f97</p>
+<p>​<br>​     $ rosparam get<br>​        background_b: 255<br>​        background_g: 86<br>​        background_r: 150<br>​        rosdistro: ‘kinetic<br>​        roslaunch:<br>​        uris: {host_ubuntu__37149: ‘<a href="http://ubuntu:37149/&#39;}" target="_blank" rel="noopener">http://ubuntu:37149/&#39;}</a><br>​        rosversion: ‘1.12.13’<br>​        run_id: 30be30a0-9e26-11e8-9edf-000c290a5f97</p>
 <p>存储信息</p>
 <pre><code>$ rosparam dump params.yaml  //保存信息
 $ rosparam load params.yaml copy  //加载信息
@@ -420,8 +421,8 @@ $ cd src/foobar
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年06月10日 22:33</p>
-        <p>原始链接： <a class="post-url" href="/2019/06/10/ROS学习笔记（二）/" title="进程概念">http://CQolive.github.io/2019/06/10/ROS学习笔记（二）/</a></p>
+        <p>最后更新： 2019年06月11日 08:49</p>
+        <p>原始链接： <a class="post-url" href="/2019/06/11/ROS学习笔记（二）/" title="ROS学习笔记（二）">http://CQolive.github.io/2019/06/11/ROS学习笔记（二）/</a></p>
         <footer>
             <a href="http://CQolive.github.io">
                 <img src="/images/logo.png" alt>
@@ -478,7 +479,7 @@ $ cd src/foobar
     <div class="post-share-list" id="share-list">
         <ul class="share-icons">
           <li>
-            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/06/10/ROS学习笔记（二）/&title=《进程概念》 — Olive&pic=http://CQolive.github.ioimages/logo.png" data-title="微博">
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/06/11/ROS学习笔记（二）/&title=《ROS学习笔记（二）》 — Olive&pic=/images/ROS学习笔记/1_1.jpg" data-title="微博">
               <i class="fa fa-weibo"></i>
             </a>
           </li>
@@ -488,22 +489,22 @@ $ cd src/foobar
             </a>
           </li>
           <li>
-            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/06/10/ROS学习笔记（二）/&title=《进程概念》 — Olive&source=" data-title="QQ">
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/06/11/ROS学习笔记（二）/&title=《ROS学习笔记（二）》 — Olive&source=" data-title="QQ">
               <i class="fa fa-qq"></i>
             </a>
           </li>
           <li>
-            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/06/10/ROS学习笔记（二）/" data-title="Facebook">
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/06/11/ROS学习笔记（二）/" data-title="Facebook">
               <i class="fa fa-facebook"></i>
             </a>
           </li>
           <li>
-            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《进程概念》 — Olive&url=http://CQolive.github.io/2019/06/10/ROS学习笔记（二）/&via=http://CQolive.github.io" data-title="Twitter">
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ROS学习笔记（二）》 — Olive&url=http://CQolive.github.io/2019/06/11/ROS学习笔记（二）/&via=http://CQolive.github.io" data-title="Twitter">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
           <li>
-            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/06/10/ROS学习笔记（二）/" data-title="Google+">
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/06/11/ROS学习笔记（二）/" data-title="Google+">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -513,7 +514,7 @@ $ cd src/foobar
 <div class="post-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;" id="wxShare-close">×</a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/06/10/ROS学习笔记（二）/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/06/11/ROS学习笔记（二）/" alt="微信分享二维码">
 </div>
 
 <div class="mask"></div>
@@ -522,6 +523,13 @@ $ cd src/foobar
         <ul class="article-footer-menu">
             
             
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/ROS/" class="color4">ROS</a>
+      
+  </li>
+
         </ul>
         
     </footer>
@@ -622,7 +630,7 @@ $ cd src/foobar
             <a class="category-link" href="/categories/First/">First</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/ROS/" style="font-size: 14px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 18px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/ROS/" style="font-size: 15px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 17.5px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -655,7 +663,7 @@ $ cd src/foobar
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/ROS/" style="font-size: 14px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 18px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/ROS/" style="font-size: 15px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 17.5px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
         </div>
     </div>
 </div>
