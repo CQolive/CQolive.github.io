@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>栈和队列 | Olive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="CQ,Olive's Blog">
+  
+  <meta name="description" content="进程系统编程阶段：进程概念-&amp;gt;进程控制-&amp;gt;基础IO-&amp;gt;进程间通信-&amp;gt;进程信号-&amp;gt;多线程 1.进程概念：冯诺依曼体系—现代计算机硬件体系结构   输入设备：键盘   输出设备：显示器   存储器：内存   运算器：CPU-中央处理器   控制器：   输入设备—&amp;gt;存储器—&amp;gt;输出设备            ||            CPU   所有的硬件都是">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="栈和队列">
+<meta property="og:url" content="http://CQolive.github.io/2019/06/13/进程概念/index.html">
+<meta property="og:site_name" content="Olive">
+<meta property="og:description" content="进程系统编程阶段：进程概念-&amp;gt;进程控制-&amp;gt;基础IO-&amp;gt;进程间通信-&amp;gt;进程信号-&amp;gt;多线程 1.进程概念：冯诺依曼体系—现代计算机硬件体系结构   输入设备：键盘   输出设备：显示器   存储器：内存   运算器：CPU-中央处理器   控制器：   输入设备—&amp;gt;存储器—&amp;gt;输出设备            ||            CPU   所有的硬件都是">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190527184417824.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190527184432652.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190527184453962.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190527184505980.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190527184517827.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190527184529609.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190527185354837.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190527184602200.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190527184621125.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-06-13T14:15:52.792Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="栈和队列">
+<meta name="twitter:description" content="进程系统编程阶段：进程概念-&amp;gt;进程控制-&amp;gt;基础IO-&amp;gt;进程间通信-&amp;gt;进程信号-&amp;gt;多线程 1.进程概念：冯诺依曼体系—现代计算机硬件体系结构   输入设备：键盘   输出设备：显示器   存储器：内存   运算器：CPU-中央处理器   控制器：   输入设备—&amp;gt;存储器—&amp;gt;输出设备            ||            CPU   所有的硬件都是">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190527184417824.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?true";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+  <div style="display: none;">
+    <script src="//s22.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
+  </div>
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Olive</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>主页</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>文章</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Olive
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        C/C++ ROS Linux 深度学习
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Olive" target="_blank" href="http://CQolive.github.io">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="https://github.com/CQolive?tab=repositories">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-进程概念" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      栈和队列
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-06-13
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>系统编程阶段：进程概念-&gt;进程控制-&gt;基础IO-&gt;进程间通信-&gt;进程信号-&gt;多线程</p>
+<h3 id="1-进程概念："><a href="#1-进程概念：" class="headerlink" title="1.进程概念："></a>1.进程概念：</h3><p><strong>冯诺依曼体系—现代计算机硬件体系结构</strong><br>   输入设备：键盘<br>   输出设备：显示器<br>   存储器：内存<br>   运算器：CPU-中央处理器<br>   控制器：<br>   输入设备—&gt;存储器—&gt;输出设备<br>            ||<br>            CPU<br>   所有的硬件都是围绕存储器工作<br>硬件结构决定软件行为：<br><strong>操作系统</strong><br>   操作系统的目的：方便用户，让计算机更加好用<br>   操作系统的定位：一款搞管理的软件-管理软硬件资源，提供良好的执行环境<br>   如何管理：先描述，在组织。管理者并不需要直接与被管理者交互进行管理，而是通过对被管理者进行描述，并且将描述信息得当的组织起来进行管理。<br><img src="https://img-blog.csdnimg.cn/20190527184417824.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>   库函数与系统调用的关系：<br>      Shell函数，库函数是对系统调用接口的封装，上=是上下级调用关系<br><strong>进程概念</strong><br>   进程是什么：进程就是运行起来的程序—用户层面的理解<br>   从操作系统的层面理解：<br>      程序运行需要将代码数据加载带内存中<br>      操作系统上运行了很多程序，操作系统就必须去管理这些程序的运行，先描述在组织进行管理，在操作系统的层面进程就是操作系统对一个运行的程序的描述。<br>      校长眼里看到了同学们的档案就仿佛看到真人，通过档案来管理学生<br>      在操作系统眼中看到了对运行程序的描述就仿佛看到了进程，通过描述管理学生<br>    这个描述信息—叫PCB（进程控制块）—Linux下是结构体: task_struct<br> <img src="https://img-blog.csdnimg.cn/20190527184432652.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>    CPU分时机制：对程序运行处理进行切换调度处理,目的就是为了让所有的程序都能够同时推进<br>    时间片：CPU在每个程序上所运行的这段时间<br><img src="https://img-blog.csdnimg.cn/20190527184453962.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>PCB中的描述信息：<br>   内存指针，程序计数器，上下文数据，标识符PID，进程状态，进程优先级（CPU资源的优先分配），记账信息，IO信息</p>
+<h3 id="2-进程查看"><a href="#2-进程查看" class="headerlink" title="2.进程查看"></a>2.进程查看</h3><p><strong>查看进程</strong><br>   ps -aux / -ef 都可看进程信息，这是详细度不同<br>   /proc<br>获取进程ID：getpid()<br><strong>创建进程</strong><br>fork()函数创建子进程<br>创建子进程的意义何在：分摊任务处理压力，让子进程完成其他任务—背锅<br><strong>如何让子进程完成其他任务</strong><br>   分辨出父子进程<br>   返回值：<br>   对于父进程来说，fork返回值是子进程的PID；创建子进程失败返回-1<br>   对于子进程来说，fork返回值是0<br>   用户通过fork的返回值不同对父子进程运行流程进行分流<br>   复制：操作系统通过复制父进程创建子进程，因此父子进程数据独有，代码共享<br><strong>进程状态</strong><br>运行，就绪，阻塞<br>Linux下进程的状态：<br>   运行：R 拿到时间片即可运行，或者正在运行<br>   可中断休眠：S 可被简单操作唤醒<br>   不可中断休眠：D 磁盘休眠，特定方式唤醒，睡够了才醒，即通常等待io调用结束<br>   停止：T （kill后无返应只有当唤醒时，才显示杀死）kill -9 可以直接杀死<br>   僵死：Z<br>   <strong>僵尸进程</strong>：处于僵死状态的进程—-资源泄露<br>   僵尸进程的产生原因：<br>   子进程先于父进程退出，因为要保留推出原因，因此操作系统不能直接释放所有资源，通知父进程获取推出原因，允许操作系统释放资源，但是父进程没有关注到这个通知，系统无法释放资源，导致处于僵死状态成为僵尸进程<br>   僵尸进程的危害：导致资源泄露<br>   如何避免：进程等待<br>   处理方式：退出父进程<br>   <strong>孤儿进程</strong>：父进程先于子进程退出，子进程成为孤儿进程，运行在后台，父进程成为1号进                                    程<br>   <strong>守护进程/精灵进程</strong>：特殊的孤儿进程</p>
+<h3 id="3-环境变量"><a href="#3-环境变量" class="headerlink" title="3.环境变量"></a>3.环境变量</h3><p>存储系统运行环境参数的变量<br>查看环境变量：env   set  echo $PATH<br>设置环境变量：export     删除环境变量：unset<br>常见环境变量：HOME  PWD SHELL PATH<br>环境变量特性：全局特性（继承）<br>   shell终端下所运行的进程能够获取到所有的环境变量，但是获取不到普通变量<br>环境变量在代码中的获取：<br>   char<em> getenv(char</em> name)<br>   main的都三个参数main(int argc,char* argv,char<strong> env[])<br>   extern char</strong> environ  声明全局变量 遍历environ[i]<br><img src="https://img-blog.csdnimg.cn/20190527184505980.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>环境变量的使用场景：通常是父进程通过给子进程设置环境变量来达到向子进程传递数据的功能</p>
+<h3 id="4-程序地址空间"><a href="#4-程序地址空间" class="headerlink" title="4.程序地址空间"></a>4.程序地址空间</h3><p><img src="https://img-blog.csdnimg.cn/20190527184517827.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>内存地址：就是内存区域的一个编号<br>虚拟地址—虚拟地址空间 struct mm_struct<br>每个程序都需要连续的地址空间<br>虚拟地址如何存储数据<br><img src="https://img-blog.csdnimg.cn/20190527184529609.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>虚拟地址空间又是什么？</strong><br>   我们所看到的程序地址空间实际是一个虚拟地址空间，实际上是操作系统通过mm_struct这个结构体为进程描述的一个空间，因此有时候也称作内存描述符<br><strong>为什么要使用虚拟地址空间呢？</strong><br>  1.进程再通过访问虚拟地址进而获取变量数据，最终还是要去访问物理内存，因为数据是存储在物理内存中的，在虚拟地址和物理地址之间通过页表进行地址映射，转换得到物理地址，进而访问物理内存区域,通过映射以后，物理地址可就不一定连续了，通过这种映射转换的方式实现数据的离散存储提高内存利用率页表中不但记录了虚拟地址和物理地址的映射关系，并且还记录了这块地址的属性实现内存访问控制<br>  2.程序运行需要连续的内存，导致内存利用率低，缺乏内存访问控制，进程独立性低，针对物理内存进行离散存储，提高利用率；为了能够让进程依然认为内存连续；操作系统通过mm_struct单独针对每个进行描述了内存信息；每个进程都认为自己拥有连续的地址空间（实际上是虚拟地址），为了能够让进程通过虚拟地址访问到物理内存；因此又推出页表记录虚拟地址和物理地址映射关系，并且在页表中对内存的访问进行权限控制。</p>
+<p><strong>创建子进程都发生了什么？
+</strong>创建子进程都发生了什么？<strong>
+   </strong>写时拷贝技术：<strong>操作系统通过复制父进程创建子进程，子进程初始时与父进程指向同一块物理区域，当内存数据发生改变时，会为子进程重新开辟内存更新页表。<br>进城的独立性：相互不会影响，增强鲁棒性<br>虚拟地址空间和页表有什么用：提高内存的利用率，增加内存访问控制，保持进程独立性。<br><img src="https://img-blog.csdnimg.cn/20190527185354837.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">
+</strong>页表如何将虚拟地址转换为物理地址**<br>   分段式内存管理：<br>      内存地址的构成：段起始地址+段内偏移<br>      段表—有很多的段表项（物理段的起始地址）<br>通过地址中的段号去段表中找到段表项，通过段表项中的物理段起始地址加上地址中的段内偏移获取到物理地址<br><img src="https://img-blog.csdnimg.cn/20190527184602200.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>分页式内存管理：<br>   内存地址的构成：页号+页内偏移<br>   页表—有很多页表项<br>通过地址中的页号去页表中找到页表项，通过页表项中的物理页号加上页内偏移获取到物理地址<br><img src="https://img-blog.csdnimg.cn/20190527184621125.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>段页式内存管理：<br>   内存地址：段号+段内页号+页内偏移<br>   段表项中又段内页表起始地址<br>   段内页表项中又包含物理页号<br>通过段号在段表中找到段表项，通过段表项中的段内页表地址找到段内页表，通过地址中的段内页号在段内页表中找到页表项，通过页表项中的物理页号与页内偏移组成物理地址。</p>
+<p>内存置换算法：<br>   内存只有4G，但是想要处理5G的数据<br>   swap又叫交换内存，内存不够时，将内存中的数据置换到交换分区中，腾出内存处理数据<br>   将暂时不用的数据置换到交换分区，获取一部分内存<br>   FIFO：先进先出<br>   LFU：最近最少频率未使用<br>   LRU：最近最久未使用</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年06月13日 22:15</p>
+        <p>原始链接： <a class="post-url" href="/2019/06/13/进程概念/" title="栈和队列">http://CQolive.github.io/2019/06/13/进程概念/</a></p>
+        <footer>
+            <a href="http://CQolive.github.io">
+                <img src="/images/logo.png" alt>
+                
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/06/13/进程概念/&title=《栈和队列》 — Olive&pic=/images/Linux基本操作/1_2.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/06/13/进程概念/&title=《栈和队列》 — Olive&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/06/13/进程概念/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《栈和队列》 — Olive&url=http://CQolive.github.io/2019/06/13/进程概念/&via=http://CQolive.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/06/13/进程概念/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/06/13/进程概念/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#进程"><span class="post-toc-text">进程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-进程概念："><span class="post-toc-text">1.进程概念：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-进程查看"><span class="post-toc-text">2.进程查看</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-环境变量"><span class="post-toc-text">3.环境变量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-程序地址空间"><span class="post-toc-text">4.程序地址空间</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/06/11/ROS学习笔记（二）/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">ROS学习笔记（二）</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                owner: 'true',
+                repo: '',
+                oauth: {
+                    client_id: '',
+                    client_secret: '',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Olive<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://CQolive.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/First/">First</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/ROS/" style="font-size: 14px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 18px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>主页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>文章</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/ROS/" style="font-size: 14px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 18px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
