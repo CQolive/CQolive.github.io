@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>排序方法总结 | Olive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="CQ,Olive's Blog">
+  
+  <meta name="description" content="插入排序1.基本思想把待排序的记录按其大小逐个插入到一个已经排序好的有序序列中，直到所有的记录插入完为止，从而得到一个有序序列。 2. 过程当插入第i(i&amp;gt;=1)个元素时，a[0],a[1],…,a[i-1]已经排好序，用a[i]的值与 a[i-1],a[i-2],…的值顺序进行比较，找到插入位置即将a[i]插入，原来位置上的元素顺序后移。  3.特性总结 元素集合越接近有序，直接插入排序算">
+<meta name="keywords" content="C语言,数据与结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序方法总结">
+<meta property="og:url" content="http://CQolive.github.io/2019/06/14/排序方法总结/index.html">
+<meta property="og:site_name" content="Olive">
+<meta property="og:description" content="插入排序1.基本思想把待排序的记录按其大小逐个插入到一个已经排序好的有序序列中，直到所有的记录插入完为止，从而得到一个有序序列。 2. 过程当插入第i(i&amp;gt;=1)个元素时，a[0],a[1],…,a[i-1]已经排好序，用a[i]的值与 a[i-1],a[i-2],…的值顺序进行比较，找到插入位置即将a[i]插入，原来位置上的元素顺序后移。  3.特性总结 元素集合越接近有序，直接插入排序算">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190531170859778.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190531173940811.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190531174341154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-06-14T14:12:02.702Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="排序方法总结">
+<meta name="twitter:description" content="插入排序1.基本思想把待排序的记录按其大小逐个插入到一个已经排序好的有序序列中，直到所有的记录插入完为止，从而得到一个有序序列。 2. 过程当插入第i(i&amp;gt;=1)个元素时，a[0],a[1],…,a[i-1]已经排好序，用a[i]的值与 a[i-1],a[i-2],…的值顺序进行比较，找到插入位置即将a[i]插入，原来位置上的元素顺序后移。  3.特性总结 元素集合越接近有序，直接插入排序算">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190531170859778.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?true";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+  <div style="display: none;">
+    <script src="//s22.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
+  </div>
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Olive</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>主页</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>文章</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Olive
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        C/C++ ROS Linux 深度学习
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Olive" target="_blank" href="http://CQolive.github.io">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="https://github.com/CQolive?tab=repositories">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-排序方法总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      排序方法总结
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-06-14
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><h4 id="1-基本思想"><a href="#1-基本思想" class="headerlink" title="1.基本思想"></a>1.基本思想</h4><p>把待排序的记录按其大小逐个插入到一个已经排序好的有序序列中，直到所有的记录插入完为止，从而得到一个有序序列。</p>
+<h4 id="2-过程"><a href="#2-过程" class="headerlink" title="2. 过程"></a>2. 过程</h4><p>当插入第i(i&gt;=1)个元素时，a[0],a[1],…,a[i-1]已经排好序，用a[i]的值与 a[i-1],a[i-2],…的值顺序进行比较，找到插入位置即将a[i]插入，原来位置上的元素顺序后移。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190531170859778.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="3-特性总结"><a href="#3-特性总结" class="headerlink" title="3.特性总结"></a>3.特性总结</h4><ol>
+<li>元素集合越接近有序，直接插入排序算法的时间效率越高 </li>
+<li>时间复杂度：O(N^2) </li>
+<li>空间复杂度：O(1)，它是一种稳定的排序算法</li>
+<li>稳定性：稳定</li>
+</ol>
+<h4 id="4-实现"><a href="#4-实现" class="headerlink" title="4.实现"></a>4.实现</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InsertSort</span><span class="params">(<span class="keyword">int</span> *<span class="built_in">array</span>,<span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; size; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> key = <span class="built_in">array</span>[i];</span><br><span class="line">		<span class="comment">//寻找key的插入位置</span></span><br><span class="line">		<span class="keyword">int</span> end = i - <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">while</span>(key &lt; <span class="built_in">array</span>[end])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">array</span>[end + <span class="number">1</span>] = <span class="built_in">array</span>[end];</span><br><span class="line">			end--;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">array</span>[end + <span class="number">1</span>] = key;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SortTest</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a[] = &#123; <span class="number">8</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">9</span>,&#125;;</span><br><span class="line">	InserSort(a,<span class="keyword">sizeof</span>(a)/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><h4 id="1-基本思想-1"><a href="#1-基本思想-1" class="headerlink" title="1.基本思想"></a>1.基本思想</h4><p>希尔排序法又称缩小增量法。希尔排序法的基本思想是：先选定一个整数，把待排序文件中所有记录分成个 组，所有距离为的记录分在同一组内，并对每一组内的记录进行排序。然后，取，重复上述分组和排序的工 作。当到达=1时，所有记录在统一组内排好序。</p>
+<h4 id="2-过程-1"><a href="#2-过程-1" class="headerlink" title="2.过程"></a>2.过程</h4><p><img src="https://img-blog.csdnimg.cn/20190531173940811.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h4><ol>
+<li>希尔排序是对直接插入排序的优化。 </li>
+<li>当gap &gt; 1时都是预排序，目的是让数组更接近于有序。当gap == 1时，数组已经接近有序的了，这样就 会很快。这样整体而言，可以达到优化的效果。我们实现后可以进行性能测试的对比。 </li>
+<li>希尔排序的时间复杂度不好计算，需要进行推导，推导出来平均时间复杂度： O(N^1.3—N^2） </li>
+<li>稳定性：不稳定<h4 id="4-实现-1"><a href="#4-实现-1" class="headerlink" title="4.实现"></a>4.实现</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShellSort</span><span class="params">(<span class="keyword">int</span> *<span class="built_in">array</span>, <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> gap = <span class="number">3</span>;</span><br><span class="line">	<span class="keyword">while</span> (gap &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//待插入元素</span></span><br><span class="line">			<span class="keyword">int</span> key = <span class="built_in">array</span>[i];</span><br><span class="line">			<span class="comment">//找key的插入位置：</span></span><br><span class="line">			<span class="keyword">int</span> end = i - gap;</span><br><span class="line">			<span class="keyword">while</span> (end &gt;= <span class="number">0</span> &amp;&amp; key &lt; <span class="built_in">array</span>[end])</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">array</span>[end + gap] = <span class="built_in">array</span>[end];</span><br><span class="line">				end = end - gap;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">array</span>[end + gap] = key;</span><br><span class="line">		&#125;</span><br><span class="line">		gap--;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SortTest</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a[] = &#123; <span class="number">8</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">9</span>,&#125;;</span><br><span class="line">	ShellSort(a,<span class="keyword">sizeof</span>(a)/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="3-选择排序"><a href="#3-选择排序" class="headerlink" title="3.选择排序"></a>3.选择排序</h3><h4 id="1-基本思想-2"><a href="#1-基本思想-2" class="headerlink" title="1.基本思想"></a>1.基本思想</h4><p>每一次从待排序的数据元素中选出最小（或最大）的一个元素，存放在序列的起始位置，直到全部待排序的 数据元素排完 </p>
+<h4 id="2-过程-2"><a href="#2-过程-2" class="headerlink" title="2.过程"></a>2.过程</h4><p><img src="https://img-blog.csdnimg.cn/20190531174341154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2EzMzE2ODM3NzI=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="3-总结-1"><a href="#3-总结-1" class="headerlink" title="3.总结"></a>3.总结</h4><ol>
+<li>直接选择排序思考非常好理解，但是效率不是很好。实际中很少使用 </li>
+<li>时间复杂度：O(N^2) </li>
+<li>空间复杂度：O(1) </li>
+<li>稳定性：不稳定<h4 id="4-实现-2"><a href="#4-实现-2" class="headerlink" title="4.实现"></a>4.实现</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SelectSort</span><span class="params">(<span class="keyword">int</span> *<span class="built_in">array</span>, <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size - <span class="number">1</span>; i++)<span class="comment">//趟数</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> MaxPos = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; size - i; ++j)<span class="comment">//找到最大值的下标</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (<span class="built_in">array</span>[j] &gt; <span class="built_in">array</span>[MaxPos])</span><br><span class="line">			&#123;</span><br><span class="line">				MaxPos = j;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (MaxPos != size - <span class="number">1</span> - i)</span><br><span class="line">			Swap(&amp;<span class="built_in">array</span>[MaxPos], &amp;<span class="built_in">array</span>[size - <span class="number">1</span> - i]);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//双向同时找最大最小</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SelectSortOP</span><span class="params">(<span class="keyword">int</span> *<span class="built_in">array</span>, <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> begin = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> end = size - <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (begin &lt; end)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> MaxPos = begin;</span><br><span class="line">		<span class="keyword">int</span> MinPos = begin;</span><br><span class="line">		<span class="keyword">int</span> index = begin + <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">while</span> (index &lt;= end)<span class="comment">//找到最大最小数的下标</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (<span class="built_in">array</span>[index] &gt; <span class="built_in">array</span>[MaxPos])</span><br><span class="line">				MaxPos = index;</span><br><span class="line">			<span class="keyword">if</span> (<span class="built_in">array</span>[index] &lt; <span class="built_in">array</span>[MinPos])</span><br><span class="line">				MinPos = index;</span><br><span class="line">			index = index + <span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (MaxPos != end)</span><br><span class="line">			Swap(&amp;<span class="built_in">array</span>[MaxPos], &amp;<span class="built_in">array</span>[end]);</span><br><span class="line">		<span class="keyword">if</span> ( MinPos == end) <span class="comment">//如果最小数是最后一个，再上一步交换后最小数已经交换到最大数的下标处</span></span><br><span class="line">		&#123;</span><br><span class="line">			MinPos = MaxPos;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (MinPos != begin)</span><br><span class="line">			Swap(&amp;<span class="built_in">array</span>[MinPos], &amp;<span class="built_in">array</span>[begin]);</span><br><span class="line">		begin++;</span><br><span class="line">		end--;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SortTest</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a[] = &#123; <span class="number">8</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">9</span>,&#125;;</span><br><span class="line">	SelectSort(a,<span class="keyword">sizeof</span>(a)/<span class="keyword">sizeof</span>(a[<span class="number">0</span>]));</span><br><span class="line">	<span class="comment">//SelectSortOP(a,sizeof(a)/sizeof(a[0]));</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="快速排序（递归）"><a href="#快速排序（递归）" class="headerlink" title="快速排序（递归）"></a>快速排序（递归）</h3><h4 id="1-基本思想-3"><a href="#1-基本思想-3" class="headerlink" title="1.基本思想"></a>1.基本思想</h4><p>快速排序是Hoare于1962年提出的一种二叉树结构的交换排序方法，其基本思想为：任取待排序元素序列中 的某元素作为基准值，按照该排序码将待排序集合分割成两子序列，左子序列中所有元素均小于基准值，右 子序列中所有元素均大于基准值，然后最左右子序列重复该过程，直到所有元素都排列在相应位置上为止。<br>将区间按照基准值划分为左右两半部分的常见方式有：</p>
+<ol>
+<li>hoare版本 2. 挖坑法 3. 前后指针版本</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Partion</span><span class="params">(<span class="keyword">int</span> *<span class="built_in">array</span>,<span class="keyword">int</span> left,<span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> begin = left;</span><br><span class="line">	<span class="keyword">int</span> end = right - <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> key = <span class="built_in">array</span>[right - <span class="number">1</span>];</span><br><span class="line">	<span class="keyword">while</span> (begin &lt; end)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//从左往右找比基准值大的元素，找到之后停止</span></span><br><span class="line">		<span class="keyword">while</span> (begin &lt; end &amp;&amp; <span class="built_in">array</span>[begin] &lt;= key)</span><br><span class="line">			begin++;</span><br><span class="line">		<span class="comment">//从右往左找比基准值小的元素，找到之后停止</span></span><br><span class="line">		<span class="keyword">while</span> (begin &lt; end &amp;&amp; <span class="built_in">array</span>[end] &gt;= key)</span><br><span class="line">			end--;</span><br><span class="line">		<span class="keyword">if</span> (begin != end)</span><br><span class="line">			Swap(&amp;<span class="built_in">array</span>[begin], &amp;<span class="built_in">array</span>[end]);</span><br><span class="line">	&#125;</span><br><span class="line">		<span class="keyword">if</span> (begin != right <span class="number">-1</span>)</span><br><span class="line">			Swap(&amp;<span class="built_in">array</span>[begin], &amp;<span class="built_in">array</span>[right - <span class="number">1</span>]);<span class="comment">//把基准值换到中间</span></span><br><span class="line">		<span class="keyword">return</span> begin;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Partion1</span><span class="params">(<span class="keyword">int</span> *<span class="built_in">array</span>, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> cur = left;</span><br><span class="line">	<span class="keyword">int</span> pre = cur - <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> key = <span class="built_in">array</span>[right - <span class="number">1</span>];</span><br><span class="line">	<span class="keyword">while</span> (cur &lt; right)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">array</span>[cur] &lt; key &amp;&amp; ++pre != cur)</span><br><span class="line">			Swap(&amp;<span class="built_in">array</span>[pre], &amp;<span class="built_in">array</span>[cur]);</span><br><span class="line">		cur++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (++pre != right)</span><br><span class="line">	&#123;</span><br><span class="line">		Swap(&amp;<span class="built_in">array</span>[pre], &amp;<span class="built_in">array</span>[right - <span class="number">1</span>]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> pre;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Partion2</span><span class="params">(<span class="keyword">int</span> *<span class="built_in">array</span>, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> begin = left;</span><br><span class="line">	<span class="keyword">int</span> end = right - <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> key = <span class="built_in">array</span>[right - <span class="number">1</span>];</span><br><span class="line">	<span class="keyword">while</span> (begin &lt; end)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//从前往后找比基准值大的元素，找到后填充end位置</span></span><br><span class="line">		<span class="keyword">while</span> (begin &lt; end &amp;&amp; <span class="built_in">array</span>[begin] &lt;= key)</span><br><span class="line">		&#123;</span><br><span class="line">			begin++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//填充end的位置</span></span><br><span class="line">		<span class="keyword">if</span> (begin &lt; end)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">array</span>[end] = <span class="built_in">array</span>[begin];</span><br><span class="line">			end--;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//从后往前找比基准值小的元素，找到后填充begin的位置</span></span><br><span class="line">		<span class="keyword">while</span> (begin &lt; end &amp;&amp; <span class="built_in">array</span>[end] &gt;= key)</span><br><span class="line">		&#123;</span><br><span class="line">			end--;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (begin &lt; end)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">array</span>[begin] = <span class="built_in">array</span>[end];</span><br><span class="line">			begin++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">array</span>[begin] = key;</span><br><span class="line">	<span class="keyword">return</span> begin;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">QuickSort</span><span class="params">(<span class="keyword">int</span>* <span class="built_in">array</span>, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">//	if (right - left &gt; 1)</span></span><br><span class="line"><span class="comment">//	&#123;</span></span><br><span class="line"><span class="comment">//		int div = Partion2(array, left, right);//Partion Partion2</span></span><br><span class="line"><span class="comment">//	    QuickSort(array, left, div);</span></span><br><span class="line"><span class="comment">//      QuickSort(array, div + 1, right);</span></span><br><span class="line"><span class="comment">//  &#125;</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (right - left &lt; <span class="number">16</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		InsertSort(<span class="built_in">array</span>, right - left);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> div = Partion1(<span class="built_in">array</span>, left, right);<span class="comment">//Partion Partion2</span></span><br><span class="line">		QuickSort(<span class="built_in">array</span>, left, div);</span><br><span class="line">		QuickSort(<span class="built_in">array</span>, div + <span class="number">1</span>, right);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="快速排序（栈模拟递归）"><a href="#快速排序（栈模拟递归）" class="headerlink" title="快速排序（栈模拟递归）"></a>快速排序（栈模拟递归）</h3><p>导入头文件Stack.h,代码 ： <a href="https://blog.csdn.net/a331683772/article/details/90238944" target="_blank" rel="noopener">https://blog.csdn.net/a331683772/article/details/90238944</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">QuickSortNor</span><span class="params">(<span class="keyword">int</span> *<span class="built_in">array</span>, <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> right = size;</span><br><span class="line">	Stack s;</span><br><span class="line">	StackInit(&amp;s);</span><br><span class="line">	StackPush(&amp;s, right);</span><br><span class="line">	StackPush(&amp;s, left);</span><br><span class="line">	<span class="keyword">while</span> (!StackEmpty(&amp;s))</span><br><span class="line">	&#123;</span><br><span class="line">		left = StackTop(&amp;s);</span><br><span class="line">		StackPop(&amp;s);</span><br><span class="line">		right = StackTop(&amp;s);</span><br><span class="line">		StackPop(&amp;s);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> div = Partion2(<span class="built_in">array</span>, left, right);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//保存右半部分区间</span></span><br><span class="line">		StackPush(&amp;s, right);</span><br><span class="line">		StackPush(&amp;s, div + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//保存左半部分区间</span></span><br><span class="line">		StackPush(&amp;s, div);</span><br><span class="line">		StackPush(&amp;s, left);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SortTest</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a[] = &#123; <span class="number">8</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">9</span>,&#125;;</span><br><span class="line">	QuickSortNor(a, (<span class="keyword">sizeof</span>(a) / <span class="keyword">sizeof</span>(a[<span class="number">0</span>])));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><h4 id="1-基本思想-4"><a href="#1-基本思想-4" class="headerlink" title="1.基本思想"></a>1.基本思想</h4><p>归并排序（MERGE-SORT）是建立在归并操作上的一种有效的排序算法,该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有 序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为二路归并。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> _MergeSort(<span class="keyword">int</span> *<span class="built_in">array</span>, <span class="keyword">int</span> left, <span class="keyword">int</span> right,<span class="keyword">int</span> *temp)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (right - left &gt; <span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> mid = left + ((right - left) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">		_MergeSort(<span class="built_in">array</span>, left, mid,temp);</span><br><span class="line">		_MergeSort(<span class="built_in">array</span>, mid, right,temp);</span><br><span class="line">		MergeData(<span class="built_in">array</span>, left, mid, right,temp);</span><br><span class="line">		<span class="built_in">memcpy</span>(<span class="built_in">array</span> + left, temp + left, <span class="keyword">sizeof</span>(<span class="keyword">int</span>) * (right - left));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MergeSort</span><span class="params">(<span class="keyword">int</span> *<span class="built_in">array</span>, <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span>* temp = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>) * size);</span><br><span class="line">	_MergeSort(<span class="built_in">array</span>, <span class="number">0</span>, size, temp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//采用非递归实现归并</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MergeSortNor</span><span class="params">(<span class="keyword">int</span> *<span class="built_in">array</span>, <span class="keyword">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span>* temp = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>) * size);</span><br><span class="line">	<span class="keyword">if</span> (temp == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		assert(<span class="number">0</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> gap = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (gap &lt; size)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i += <span class="number">2</span> * gap)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> left = i;</span><br><span class="line">			<span class="keyword">int</span> mid = left + gap;</span><br><span class="line">			<span class="keyword">int</span> right = mid + gap;</span><br><span class="line">			<span class="keyword">if</span> (mid &gt;= size)</span><br><span class="line">				mid = size;</span><br><span class="line">			<span class="keyword">if</span> (right &gt;= size)</span><br><span class="line">				right = size;</span><br><span class="line">			MergeData(<span class="built_in">array</span>, left, mid, right, temp);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">memcpy</span>(<span class="built_in">array</span>, temp, <span class="keyword">sizeof</span>(<span class="keyword">int</span>) * size);</span><br><span class="line">		gap *= <span class="number">2</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SortTest</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a[] = &#123; <span class="number">8</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">9</span>,&#125;;</span><br><span class="line">	MergeSortNor(a, (<span class="keyword">sizeof</span>(a) / <span class="keyword">sizeof</span>(a[<span class="number">0</span>])));</span><br><span class="line">	<span class="comment">//MergeSortNor(a, (sizeof(a) / sizeof(a[0])));</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年06月14日 22:12</p>
+        <p>原始链接： <a class="post-url" href="/2019/06/14/排序方法总结/" title="排序方法总结">http://CQolive.github.io/2019/06/14/排序方法总结/</a></p>
+        <footer>
+            <a href="http://CQolive.github.io">
+                <img src="/images/logo.png" alt>
+                
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/06/14/排序方法总结/&title=《排序方法总结》 — Olive&pic=/images/3_1.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/06/14/排序方法总结/&title=《排序方法总结》 — Olive&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/06/14/排序方法总结/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《排序方法总结》 — Olive&url=http://CQolive.github.io/2019/06/14/排序方法总结/&via=http://CQolive.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/06/14/排序方法总结/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/06/14/排序方法总结/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/C语言/" class="color4">C语言</a>
+      
+    <a href="/tags/数据与结构/" class="color1">数据与结构</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#插入排序"><span class="post-toc-text">插入排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-基本思想"><span class="post-toc-text">1.基本思想</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-过程"><span class="post-toc-text">2. 过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-特性总结"><span class="post-toc-text">3.特性总结</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-实现"><span class="post-toc-text">4.实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#希尔排序"><span class="post-toc-text">希尔排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-基本思想-1"><span class="post-toc-text">1.基本思想</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-过程-1"><span class="post-toc-text">2.过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-总结"><span class="post-toc-text">3.总结</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-实现-1"><span class="post-toc-text">4.实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-选择排序"><span class="post-toc-text">3.选择排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-基本思想-2"><span class="post-toc-text">1.基本思想</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-过程-2"><span class="post-toc-text">2.过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-总结-1"><span class="post-toc-text">3.总结</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-实现-2"><span class="post-toc-text">4.实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#快速排序（递归）"><span class="post-toc-text">快速排序（递归）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-基本思想-3"><span class="post-toc-text">1.基本思想</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#快速排序（栈模拟递归）"><span class="post-toc-text">快速排序（栈模拟递归）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#归并排序"><span class="post-toc-text">归并排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-基本思想-4"><span class="post-toc-text">1.基本思想</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/06/13/进程概念/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">进程概念</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                owner: 'true',
+                repo: '',
+                oauth: {
+                    client_id: '',
+                    client_secret: '',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Olive<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://CQolive.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/First/">First</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/ROS/" style="font-size: 14px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 18px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>主页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>文章</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 16px;">Linux</a> <a href="/tags/Python/" style="font-size: 12px;">Python</a> <a href="/tags/ROS/" style="font-size: 14px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 18px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
