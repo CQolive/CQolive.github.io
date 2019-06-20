@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>进程创建 | Olive</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="CQ,Olive's Blog">
+  
+  <meta name="description" content="1.进程创建   fork—通过复制调用进程创建一个新的子进程：      复制（pcb—代码共享，数据独有）—程序计数器（运行位置也一样）      返回值：父进程返回子进程的pid,子进程返回0      写时拷贝技术   vfork—创建子进程，共用同一个虚拟地址空间，为了防止调用栈混乱，因此父进程调用vfork会阻塞，阻塞到子进程退出或者子进程程序替换，开辟内存创建自己的地址空间。  12">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程创建">
+<meta property="og:url" content="http://CQolive.github.io/2019/06/20/进程创建/index.html">
+<meta property="og:site_name" content="Olive">
+<meta property="og:description" content="1.进程创建   fork—通过复制调用进程创建一个新的子进程：      复制（pcb—代码共享，数据独有）—程序计数器（运行位置也一样）      返回值：父进程返回子进程的pid,子进程返回0      写时拷贝技术   vfork—创建子进程，共用同一个虚拟地址空间，为了防止调用栈混乱，因此父进程调用vfork会阻塞，阻塞到子进程退出或者子进程程序替换，开辟内存创建自己的地址空间。  12">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://cqolive.github.io/images/内容图片/进程控制/1.png">
+<meta property="og:image" content="http://cqolive.github.io/images/内容图片/进程控制/2.png">
+<meta property="og:image" content="http://cqolive.github.io/images/内容图片/进程控制/3.png">
+<meta property="og:updated_time" content="2019-06-20T03:47:53.582Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="进程创建">
+<meta name="twitter:description" content="1.进程创建   fork—通过复制调用进程创建一个新的子进程：      复制（pcb—代码共享，数据独有）—程序计数器（运行位置也一样）      返回值：父进程返回子进程的pid,子进程返回0      写时拷贝技术   vfork—创建子进程，共用同一个虚拟地址空间，为了防止调用栈混乱，因此父进程调用vfork会阻塞，阻塞到子进程退出或者子进程程序替换，开辟内存创建自己的地址空间。  12">
+<meta name="twitter:image" content="http://cqolive.github.io/images/内容图片/进程控制/1.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'true', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?true";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+  <div style="display: none;">
+    <script src="//s22.cnzz.com/z_stat.php?id=true&web_id=true" language="JavaScript"></script>
+  </div>
+
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">Olive</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>主页</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>文章</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        Olive
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        C/C++ ROS Linux 深度学习
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Olive" target="_blank" href="http://CQolive.github.io">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="https://github.com/CQolive?tab=repositories">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/WongMinHo">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                        <a title="Twitter" target="_blank" href="//twitter.com/huangminhow">
+                            <i class="fa fa-twitter fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-进程创建" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      进程创建
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-06-20
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="1-进程创建"><a href="#1-进程创建" class="headerlink" title="1.进程创建"></a>1.进程创建</h3><p>   fork—通过复制调用进程创建一个新的子进程：<br>      复制（pcb—代码共享，数据独有）—程序计数器（运行位置也一样）<br>      返回值：父进程返回子进程的pid,子进程返回0<br>      写时拷贝技术<br>   vfork—创建子进程，共用同一个虚拟地址空间，为了防止调用栈混乱，因此父进程调用vfork会阻塞，阻塞到子进程退出或者子进程程序替换，开辟内存创建自己的地址空间。</p>
+<p><img src="\images\内容图片\进程控制\1.png" alt></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//子进程推出后，父进程才运行</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> pid = vfork();</span><br><span class="line">	<span class="keyword">if</span>(pid == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">	 <span class="built_in">printf</span>(<span class="string">"i am  child!\n"</span>);</span><br><span class="line">	 sleep(<span class="number">5</span>);</span><br><span class="line">	 <span class="built_in">exit</span>(<span class="number">0</span>);<span class="comment">//只释放PCB资源</span></span><br><span class="line">	 <span class="comment">//return -1; 退出会段错误，因为退出所有资源（包括虚拟地址空间），但是父子进程共用一块虚拟空间，所以当父进程运行时虚拟空间已经被释放。</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"i am parents\n"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>fork/vfork在内核中创建进程都是调用clone实现pcb创建并拷贝数据的；<br>vfork已经没人使用了，因为vfork的存在意义就是创建子进程</p>
+<h3 id="2-进程终止"><a href="#2-进程终止" class="headerlink" title="2.进程终止"></a>2.进程终止</h3><p>进程终止也就是进程退出<br>   <strong>退出场景：</strong><br>      正常退出：结果符合预期/结果不符合预期<br>      异常退出：常见的程序崩溃</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//演示进程退出场景以及如何退出</span></span><br><span class="line"> <span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"> <span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"> <span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"> <span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"> <span class="keyword">int</span> hot_beef_noodle = <span class="number">1</span>;</span><br><span class="line"> <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line"> </span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">"---------------"</span>);</span><br><span class="line"> sleep(<span class="number">3</span>);</span><br><span class="line">  _exit(<span class="number">1</span>);<span class="comment">//任意位置退出进程,不会刷新缓冲区,printf不会输出</span></span><br><span class="line">  <span class="comment">//exit(1) //任意位置退出进程</span></span><br><span class="line">  <span class="comment">//return 1;//main函数中的return也是退出进程</span></span><br><span class="line">  <span class="comment">/*模拟异常退出</span></span><br><span class="line"><span class="comment">  char *ptr = NULL;</span></span><br><span class="line"><span class="comment">  memcpy(ptr,"nihao",5);</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"i want to eat hot_beef noddle\n"</span>);</span><br><span class="line"><span class="keyword">if</span>(hot_beef_noodle)&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"eat hot_beef noddle\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"i want to eat old noddle\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"want to eat noodle\n"</span>);</span><br><span class="line"> 	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>   <strong>如何退出：</strong><br>         main函数中return           退出前刷新缓冲区<br>         void exit(int status)         这是一个库函数 退出前刷新缓冲区<br>         void _exit(int status)       系统调用接口，不会刷新缓冲区，缓冲区数据丢失<br>         库函数和系统调用接口的关系：上下级的封装调用关系<br>         int atexit(void(*function)(void))告诉操作系统进程推出的时候执行一下function函数</p>
+<h3 id="3-进程等待"><a href="#3-进程等待" class="headerlink" title="3.进程等待"></a>3.进程等待</h3><p>等待子进程的状态改变（等待子进程退出）-获取子进程的退出返回值<br>   <strong>为什么要等待子进程退出:</strong> 因为子进程退出时为了保存推出原因，因此操作系统不能释放子进程全部资源，因此通知父进程获取子进程退出返值，允许释放资源；但是通常这个操作的通知是静音的，导致父进程没有关注到子进程的退出，因此子进程成为僵尸进程<br>   若父进程获取到了子进程的返回值，僵尸进程将没有存在的意义就会被释放资源<br>   因为不知道子进程何时退出，因此只能创建之后一直等待着子进程的退出<br>   <strong>如何等待</strong><br>      pid_t wait(int <em>status);<br>      pid_t waitpid(pid_t pid,int </em>status,int options)<br>      wait接口功能是一直等待子进程退出，子进程退出后，获取到返回值，放到传入的参数statu中，如果一直没有子进程退出，wait函数将一直阻塞。<br>      <strong>阻塞：</strong>为了完成一个功能发起调用，当前若不具备完成条件，等待直到条件具备完成功能后返回<br>      <strong>非阻塞</strong>为了完成一个功能发起调用，当前若不具备完成条件，则立即报错返回<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实现进程等待的demo，从这个demo中体会wati/waitpid两个接口的阻塞等待，以及子进程的返回值的获取</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;                                                                                        </span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line">    <span class="comment">//extern int erron;</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">     <span class="keyword">int</span> pid = fork();</span><br><span class="line">     <span class="keyword">if</span>(pid &lt; <span class="number">0</span>)</span><br><span class="line">     &#123;</span><br><span class="line">       <span class="comment">//errno是一个全局变量，存储每次系统调用出现错误原因编号</span></span><br><span class="line">       <span class="comment">//        //strerror，通过错误编号获取字符串错误原因</span></span><br><span class="line">       <span class="built_in">printf</span>(<span class="string">"fork error：%s\n"</span>,strerror(errno));</span><br><span class="line">       perror(<span class="string">"fork error"</span>);</span><br><span class="line">     &#125;</span><br><span class="line">   </span><br><span class="line">     <span class="keyword">else</span> <span class="keyword">if</span>(pid == <span class="number">0</span>)</span><br><span class="line">     &#123;</span><br><span class="line">       sleep(<span class="number">3</span>);</span><br><span class="line"> <span class="comment">//  exit(256);//返回0  257 返回 1，只有低8位</span></span><br><span class="line">     &#125;</span><br><span class="line">    </span><br><span class="line">      <span class="comment">/*pid_t wait(int *status);</span></span><br><span class="line"><span class="comment">       阻塞等待任意一个子进程退出，获取返回值</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">      wait(<span class="literal">NULL</span>);</span><br><span class="line">     <span class="comment">/*pid_t waitpid(pid_t pid,int *status,int options)</span></span><br><span class="line"><span class="comment">     阻塞等待任意一个子进程或者指定的子进程退出</span></span><br><span class="line"><span class="comment">     pid: -1 等待任意进程    pid &gt; 0： 等待指定的子进程</span></span><br><span class="line"><span class="comment">     options: WNOHANG 设置为非阻塞   0：默认阻塞</span></span><br><span class="line"><span class="comment">     返回值: 若WNOHANG被指定，没有子进程退出则立即报错返回0；错误：-1</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">   </span><br><span class="line">     <span class="comment">//waitpid(-1,NULL,0);//阻塞</span></span><br><span class="line">                                                                                                            </span><br><span class="line">     <span class="comment">// while(waitpid(-1,NULL,WNOHANG) == 0)  //非阻塞等待</span></span><br><span class="line">     <span class="comment">// &#123;</span></span><br><span class="line">     <span class="comment">//非阻塞轮询操作</span></span><br><span class="line">     <span class="comment">//   printf("drink coffee");</span></span><br><span class="line">     <span class="comment">// sleep(1);</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">      </span><br><span class="line">     </span><br><span class="line">     <span class="keyword">int</span> statu;   <span class="comment">//获取退出码</span></span><br><span class="line">      <span class="keyword">while</span>(waitpid(<span class="number">-1</span>,&amp;statu,WNOHANG) == <span class="number">0</span>)</span><br><span class="line">     &#123;</span><br><span class="line">       <span class="comment">//非阻塞轮询操作</span></span><br><span class="line">       <span class="built_in">printf</span>(<span class="string">"drink coffee"</span>);</span><br><span class="line">       sleep(<span class="number">1</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span>((statu &amp; <span class="number">0x7f</span>) == <span class="number">0</span>)</span><br><span class="line">     &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"exit code%d"</span>,(statu &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xff</span>);</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">      <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">     &#123;</span><br><span class="line">       <span class="built_in">printf</span>(<span class="string">"i am parent\n"</span>);</span><br><span class="line">       sleep(<span class="number">1</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>  while [ true ];do clear; ps -aux || grep -v wait </p>
+<p><img src="\images\内容图片\进程控制\2.png" alt></p>
+<h2 id="程序替换"><a href="#程序替换" class="headerlink" title="程序替换"></a>程序替换</h2><p>程序替换：替换一个进程正在运行的程序<br>    重新加载一个新的程序到物理内存中，对一个进程的代码段通过页表在物理内存中的地址进行修改映射关系，让程序的代码段经过页表转换后，指向了新的程序位置<br>    让一个进程的PCB通过页表转换映射到物理内存上另一个程序的地址；进程将运行另一个程序，以前的数据和代码都是消除了。</p>
+<p>\images\内容图片\进程控制</p>
+<p>​    <img src="\images\内容图片\进程控制\3.png" alt><br><strong>如何替换：exec函数族</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">extern char **environ;</span><br><span class="line">int execl(const char *path, const char *arg, ...);</span><br><span class="line">int execlp(const char *file, const char *arg, ...);</span><br><span class="line">int execle(const char *path, const char *arg, ..., char * const envp[]);</span><br><span class="line">int execv(const char *path, char *const argv[]);</span><br><span class="line">int execvp(const char *file, char *const argv[]);</span><br><span class="line">int execvpe(const char *file, char *const argv[], char *const envp[]);</span><br></pre></td></tr></table></figure>
+<pre><code>带p和不带p区别：要加载的程序是否需要确定给出所在路径
+v和l的区别：程序运行参数是函数的参数平铺或者直接组织成为字符串指针数组给出
+带e与不带e的区别：要运行的程序，是否需要重新自定义环境变量
+</code></pre><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"leihaoa~~~~"</span>);</span><br><span class="line">	<span class="comment">//int execl(const char *path, const char *arg, ...);</span></span><br><span class="line">	<span class="comment">//使用PATH这个路径的程序，替换当前进程要运行的程序</span></span><br><span class="line">	<span class="comment">//让当前进程运行ls这个程序的功能</span></span><br><span class="line">	<span class="comment">//后面arg以及...都是这个程序的运行参数</span></span><br><span class="line">	execl(<span class="string">"/usr/bin/ls"</span>,<span class="string">"ls"</span>,<span class="string">"-l"</span>,<span class="string">"-a"</span>,<span class="literal">NULL</span>)；</span><br><span class="line">    <span class="comment">//execlp("ls","-l","-a",NULL)；</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//int execv(const char *path, char *const argv[]);</span></span><br><span class="line">    <span class="comment">/*char *argv[32] = &#123;NULL&#125;;</span></span><br><span class="line"><span class="comment">    argv[0] = "ls";</span></span><br><span class="line"><span class="comment">    argv[1] = "-l";</span></span><br><span class="line"><span class="comment">    argv[2] = "-a";</span></span><br><span class="line"><span class="comment">    argv[3] = "NULL";</span></span><br><span class="line"><span class="comment">    execv("/usr/bin/ls",argv);*/</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"nihao~~"</span>);<span class="comment">//被替换，不执行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年06月20日 11:47</p>
+        <p>原始链接： <a class="post-url" href="/2019/06/20/进程创建/" title="进程创建">http://CQolive.github.io/2019/06/20/进程创建/</a></p>
+        <footer>
+            <a href="http://CQolive.github.io">
+                <img src="/images/logo.png" alt>
+                
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://CQolive.github.io/2019/06/20/进程创建/&title=《进程创建》 — Olive&pic=/images/Linux基本操作/1_2.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://CQolive.github.io/2019/06/20/进程创建/&title=《进程创建》 — Olive&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://CQolive.github.io/2019/06/20/进程创建/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《进程创建》 — Olive&url=http://CQolive.github.io/2019/06/20/进程创建/&via=http://CQolive.github.io" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://CQolive.github.io/2019/06/20/进程创建/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://CQolive.github.io/2019/06/20/进程创建/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Linux/" class="color1">Linux</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-进程创建"><span class="post-toc-text">1.进程创建</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-进程终止"><span class="post-toc-text">2.进程终止</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-进程等待"><span class="post-toc-text">3.进程等待</span></a></li></ol><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#程序替换"><span class="post-toc-text">程序替换</span></a>
+        </li></nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/06/17/僵尸进程与孤儿进程/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">僵尸进程与孤儿进程</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <div id="comments">
+        <script>
+            var gitment = new Gitment({
+                owner: 'true',
+                repo: '',
+                oauth: {
+                    client_id: '',
+                    client_secret: '',
+                },
+            })
+            gitment.render('comments')
+        </script>
+    </div>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 Olive<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://CQolive.github.io",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/First/">First</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 17.5px;">Linux</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/ROS/" style="font-size: 15px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 17.5px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>主页</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>文章</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/C/" style="font-size: 10px;">C++</a> <a href="/tags/C语言/" style="font-size: 20px;">C语言</a> <a href="/tags/Linux/" style="font-size: 17.5px;">Linux</a> <a href="/tags/Python/" style="font-size: 12.5px;">Python</a> <a href="/tags/ROS/" style="font-size: 15px;">ROS</a> <a href="/tags/数据与结构/" style="font-size: 17.5px;">数据与结构</a> <a href="/tags/深度学习/" style="font-size: 10px;">深度学习</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
